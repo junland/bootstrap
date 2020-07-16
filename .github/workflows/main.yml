@@ -1,0 +1,36 @@
+name: Multi-Arch Builder
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:  
+  build:
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        target-arch: [x86-64-core-i7, aarch64]
+    env:
+      ACTION_TGT_ARCH: ${{matrix.target-arch}}
+      DEBIAN_FRONTEND: noninteractive
+    steps:
+    - uses: actions/checkout@v2
+    - name: install / update deps if not installed
+      run: sudo apt update -y && sudo apt install rsync build-essential expect pkg-config libarchive-tools m4 gawk bc bison flex texinfo python3 perl libtool autoconf automake autopoint autoconf-archive mtools liblzma-dev libelf-dev libssl-dev zlib1g-dev zlib1g xz-utils lzip file curl wget gettext -y && sudo apt autoremove -y
+    - name: use sh instead of dash
+      run: sudo sh -c 'echo "dash dash/sh boolean false" | debconf-set-selections' && sudo dpkg-reconfigure dash
+    - name: change shell scripts permissions
+      run: chmod +x -R ./*.sh
+    - name: setup toolchain
+      run: ./setup.sh
+    - name: start build
+      run: ./build.sh
+    - name: change ownership and archive stage 1 rootfs
+      run: sudo chown root:root -v -R ./rootfs && sudo tar -cJf stage1-rootfs-$ACTION_TGT_ARCH.tar.xz -C ./rootfs .
+    - uses: actions/upload-artifact@v2
+      with:
+        name: stage1-rootfs-${{matrix.target-arch}}-${{github.run_id}} 
+        path: ${{github.workspace}}/stage1-rootfs-${{matrix.target-arch}}.tar.xz
