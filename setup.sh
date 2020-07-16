@@ -41,10 +41,10 @@ tar -xvf ./$TOOLCHAIN_ARCH--glibc--bleeding-edge-2020.02-2.tar.bz2 && rm ./$TOOL
 
 msg "Relocate toolchain..."
 
-cd $CWD/$TOOLCHAIN_ARCH--glibc--bleeding-edge-2020.02-2
+cd $TOOLCHAIN_ARCH--glibc--bleeding-edge-2020.02-2
 
-. $CWD/$TOOLCHAIN_ARCH--glibc--bleeding-edge-2020.02-2/relocate-sdk.sh
+. ./relocate-sdk.sh
+
+cd ..
 
 msg "Done setting up toolchain..."
-
-cd $CWD
