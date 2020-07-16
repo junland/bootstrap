@@ -28,6 +28,11 @@ export PATH
 
 msg "Toolchain path set: $PATH"
 
+msg "Injecting toolchain PATH into bashrc..."
+
+echo "PATH=$PATH" >> ~/.bashrc
+echo "export PATH" >> ~/.bashrc
+
 case "$TOOLCHAIN_ARCH" in
   x86_64 | x86-64-core-i7)
     export XHOST="$(echo ${MACHTYPE} | sed -e 's/-[^-]*/-cross/')"
