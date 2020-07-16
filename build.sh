@@ -31,7 +31,7 @@ case "$TOOLCHAIN_ARCH" in
     export XHOST="$(echo ${MACHTYPE} | sed -e 's/-[^-]*/-cross/')"
     export XTARGET="x86_64-buildroot-linux-gnu"
     export KARCH="x86_64"
-    export GCC_FLAGS="--disable-multilib --with-arch=x86-64 --with-tune=generic"
+    export GCC_FLAGS="--disable-multilib --with-arch=x86-64 --with-tune=generic --enable-cet=auto"
     ;;
   aarch64)
     export XHOST="$(echo ${MACHTYPE} | sed -e 's/-[^-]*/-cross/')"
