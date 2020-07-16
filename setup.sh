@@ -35,7 +35,7 @@ ln -s usr/lib lib
 
 msg "Getting toolchain..."
 
-wget $TOOLCHAIN_URL
+wget -q $TOOLCHAIN_URL
 
 msg "Unpacking toolchain..."
 
