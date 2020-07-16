@@ -15,7 +15,7 @@ fi
 TOOLCHAIN_ARCH=$1
 TOOLCHAIN_URL=https://toolchains.bootlin.com/downloads/releases/toolchains/$TOOLCHAIN_ARCH/tarballs/$TOOLCHAIN_ARCH--glibc--bleeding-edge-2020.02-2.tar.bz2
 
-unset $1
+set --
 
 echo "Creating rootfs dir..."
 
