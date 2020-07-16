@@ -31,13 +31,13 @@ case "$TOOLCHAIN_ARCH" in
     export XHOST="$(echo ${MACHTYPE} | sed -e 's/-[^-]*/-cross/')"
     export XTARGET="x86_64-buildroot-linux-gnu"
     export KARCH="x86_64"
-    export GCC_FLAGS="--with-arch=x86-64 --with-tune=generic"
+    export GCC_FLAGS="--disable-multilib --with-arch=x86-64 --with-tune=generic"
     ;;
   aarch64)
     export XHOST="$(echo ${MACHTYPE} | sed -e 's/-[^-]*/-cross/')"
     export XTARGET="aarch64-buildroot-linux-gnu"
     export KARCH="arm64"
-    export GCC_FLAGS="-with-arch=armv8-a --enable-fix-cortex-a53-835769 --enable-fix-cortex-a53-843419"
+    export GCC_FLAGS="--disable-multilib --with-arch=armv8-a --enable-fix-cortex-a53-835769 --enable-fix-cortex-a53-843419"
     ;;
   *)
     msg "Architecture is not set or is not supported by 'bootstrap' script"
@@ -103,7 +103,7 @@ sed -i '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
 
 cd build
 
-../gcc-10.1.0/configure \
+../configure \
     --prefix=/tools \
     --libdir=/tools/lib64 \
     --build=${XHOST} \
@@ -114,6 +114,7 @@ cd build
     --with-system-zlib \
     --with-native-system-header-dir=/tools/include \
     --disable-libssp \
+    $GCC_FLAGS \
     --enable-install-libiberty
     
 make AS_FOR_TARGET="${XTARGET}-as" LD_FOR_TARGET="${XTARGET}-ld"
