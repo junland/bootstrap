@@ -36,7 +36,7 @@ source ~/.bashrc
 case "$TOOLCHAIN_ARCH" in
   x86_64 | x86-64-core-i7)
     export XHOST="$(echo ${MACHTYPE} | sed -e 's/-[^-]*/-cross/')"
-    export XTARGET="x86-64-buildroot-linux-gnu"
+    export XTARGET="x86_64-buildroot-linux-gnu"
     export KARCH="x86_64"
     export GCC_FLAGS="--disable-multilib --with-arch=x86-64 --with-tune=generic --enable-cet=auto"
     ;;
