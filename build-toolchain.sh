@@ -166,10 +166,10 @@ main() {
 
   case "$1" in
     x86_64)
-      TARGET=aarch64-bootstrap-linux-gnu
-      KARCH=arm64
+      TARGET=x86_64-bootstrap-linux-gnu
+      KARCH=x86_64
       MULTILIB_OPTIONS="--disable-multilib"
-      GCC_OPTIONS="--with-abi=lp64 --with-arch=armv8-a --enable-fix-cortex-a53-835769 --enable-fix-cortex-a53-843419"
+      GCC_OPTIONS="--with-arch=x86-64 --with-tune=generic"
       export TARGET KARCH MULTILIB_OPTIONS GCC_OPTIONS
       ;;
     aarch64)
