@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+set +h
+
 msg() {
   echo " >>> $1"
 }
@@ -112,7 +114,9 @@ sed -i "/ac_cpp=/s/\$CPPFLAGS/\$CPPFLAGS -O2/" {libiberty,gcc}/configure
 
 cd build
 
-../configure PATH=$PATH \
+msg "My PATH -- $PATH"
+
+../configure \
     --prefix=/tools \
     --libdir=/tools/lib64 \
     --build=${XHOST} \
