@@ -15,10 +15,10 @@ PrepareSources() {
 
   rm -rf *.tar.xz *-src *-build toolchain
 
-  wget https://www.kernel.org/pub/linux/kernel/v$LINUX_VER_MAJ.x/$LINUX.tar.xz
-  wget https://ftp.gnu.org/gnu/binutils/$BINUTILS.tar.xz
-  wget https://ftp.gnu.org/gnu/glibc/$GLIBC.tar.xz
-  wget https://ftp.gnu.org/gnu/gcc/$GCC/$GCC.tar.xz
+  wget -q https://www.kernel.org/pub/linux/kernel/v$LINUX_VER_MAJ.x/$LINUX.tar.xz
+  wget -q https://ftp.gnu.org/gnu/binutils/$BINUTILS.tar.xz
+  wget -q https://ftp.gnu.org/gnu/glibc/$GLIBC.tar.xz
+  wget -q https://ftp.gnu.org/gnu/gcc/$GCC/$GCC.tar.xz
 
   tar -xvf $LINUX.tar.xz
   tar -xvf $BINUTILS.tar.xz
@@ -44,6 +44,8 @@ BuildBinutils() {
 
   cd $BUILD_ROOT/binutils-build
 
+  echo " >>> Build binutils"
+
   $BUILD_ROOT/binutils-src/configure \
     --prefix=$BUILD_ROOT/toolchain \
     --build=$HOST \
@@ -68,6 +70,8 @@ BuildFirstGCC() {
   cd $BUILD_ROOT/gcc-first-build
 
   unset CC CXX AR AS RANLIB LD STRIP OBJCOPY OBJDUMP
+
+  echo " >>> Build first GCC"
 
   $BUILD_ROOT/gcc-src/configure \
     --prefix=$BUILD_ROOT/toolchain \
@@ -99,6 +103,8 @@ BuildGlibc() {
 
   cd $BUILD_ROOT/glibc-build
 
+  echo " >>> Build first Glibc"
+
   export CC="$TARGET-gcc"
   export CXX="$TARGET-g++"
   export AR="$TARGET-ar"
@@ -129,6 +135,8 @@ BuildGCC() {
   mkdir -vp $BUILD_ROOT/gcc-build
 
   cd $BUILD_ROOT/gcc-build
+
+   echo " >>> Build final GCC"
 
   unset CC CXX AR AS RANLIB LD STRIP OBJCOPY OBJDUMP
 

@@ -35,8 +35,10 @@ jobs:
     - name: build chroot
       run: ./build-chroot.sh $ACTION_TGT_ARCH
     - name: change ownership and archive stage 1 rootfs
+      if: ${{ always() }}
       run: sudo chown root:root -v -R ./rootfs && sudo tar -cJf stage1-rootfs-$ACTION_TGT_ARCH.tar.xz -C ./rootfs .
     - uses: actions/upload-artifact@v2
+      if: ${{ always() }}
       with:
         name: stage1-rootfs-${{matrix.target-arch}}-${{github.run_id}} 
         path: ${{github.workspace}}/stage1-rootfs-${{matrix.target-arch}}.tar.xz
