@@ -211,4 +211,5 @@ main() {
 }
 
 set -e +h
-main
+
+main "$@"
