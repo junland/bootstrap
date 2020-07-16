@@ -25,9 +25,9 @@ jobs:
     - name: change shell scripts permissions
       run: chmod +x -R ./*.sh
     - name: setup toolchain
-      run: ./setup.sh
+      run: ./setup.sh $ACTION_TGT_ARCH
     - name: start build
-      run: ./build.sh
+      run: ./build.sh $ACTION_TGT_ARCH
     - name: change ownership and archive stage 1 rootfs
       run: sudo chown root:root -v -R ./rootfs && sudo tar -cJf stage1-rootfs-$ACTION_TGT_ARCH.tar.xz -C ./rootfs .
     - uses: actions/upload-artifact@v2
