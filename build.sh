@@ -7,8 +7,6 @@ msg() {
 CWD=$(pwd)
 umask 022
 
-pwd
-
 if [ "$1" == "" ]; then
   msg "Please specify a architecture to build."
   exit 1
@@ -32,6 +30,8 @@ msg "Injecting toolchain PATH into bashrc..."
 
 echo "PATH=$PATH" >> ~/.bashrc
 echo "export PATH" >> ~/.bashrc
+
+source ~/.bashrc
 
 case "$TOOLCHAIN_ARCH" in
   x86_64 | x86-64-core-i7)
