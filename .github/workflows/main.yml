@@ -20,8 +20,8 @@ jobs:
     - uses: actions/checkout@v2
     - name: install / update deps if not installed
       run: sudo apt update -y && sudo apt install rsync build-essential expect pkg-config libarchive-tools m4 gawk bc bison flex texinfo python3 perl libtool autoconf automake autopoint autoconf-archive mtools liblzma-dev libelf-dev libssl-dev zlib1g-dev zlib1g xz-utils lzip file curl wget gettext -y && sudo apt autoremove -y
-    - name: use sh instead of dash
-      run: sudo sh -c 'echo "dash dash/sh boolean false" | debconf-set-selections' && sudo dpkg-reconfigure dash
+    - name: use bash instead of dash
+      run: sudo dpkg-reconfigure dash
     - name: change shell scripts permissions
       run: chmod +x -R ./*.sh
     - name: move bashrc file outside of current user
