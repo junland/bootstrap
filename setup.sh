@@ -21,6 +21,16 @@ mkdir -vp $CWD/rootfs
 
 mkdir -vp $CWD/rootfs/tools
 
+cd $CWD/rootfs
+
+mkdir -p ./{boot,dev,etc,mnt/root,proc,root,sys,tmp,usr/{bin,lib,sbin,share,include},run}
+
+ln -s usr/bin bin
+
+ln -s usr/sbin sbin
+    
+ln -s usr/lib lib
+
 msg "Getting toolchain..."
 
 wget $TOOLCHAIN_URL
@@ -31,6 +41,10 @@ tar -xvf ./$TOOLCHAIN_ARCH--glibc--bleeding-edge-2020.02-2.tar.bz2 && rm ./$TOOL
 
 msg "Relocate toolchain..."
 
+cd $CWD/$TOOLCHAIN_ARCH--glibc--bleeding-edge-2020.02-2
+
 . $CWD/$TOOLCHAIN_ARCH--glibc--bleeding-edge-2020.02-2/relocate-sdk.sh
 
 msg "Done setting up toolchain..."
+
+cd $CWD
