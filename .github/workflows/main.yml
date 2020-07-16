@@ -24,6 +24,8 @@ jobs:
       run: sudo sh -c 'echo "dash dash/sh boolean false" | debconf-set-selections' && sudo dpkg-reconfigure dash
     - name: change shell scripts permissions
       run: chmod +x -R ./*.sh
+    - name: add tools symlink.
+      run: sudo ln -sv ${GITHUB_WORKSPACE}/rootfs/tools /
     - name: setup toolchain
       run: ./setup.sh $ACTION_TGT_ARCH
     - name: start build
