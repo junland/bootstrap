@@ -19,6 +19,8 @@ echo "Creating rootfs dir..."
 
 mkdir -vp $CWD/rootfs
 
+mkdir -vp $CWD/rootfs/tools
+
 msg "Getting toolchain..."
 
 wget $TOOLCHAIN_URL
