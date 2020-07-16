@@ -23,7 +23,7 @@ export ROOTFS_DIR
 
 msg "Setting toolchain PATH..."
 
-PATH=$CWD/$TOOLCHAIN_ARCH--glibc--bleeding-edge-2020.02-2/bin:$PATH
+PATH=$CWD/toolchain/bin:$PATH
 export PATH
 
 msg "Toolchain path set: $PATH"
@@ -36,15 +36,15 @@ echo "export PATH" >> ~/.bashrc
 source ~/.bashrc
 
 case "$TOOLCHAIN_ARCH" in
-  x86_64 | x86-64-core-i7)
+  x86_64)
     export XHOST="$(echo ${MACHTYPE} | sed -e 's/-[^-]*/-cross/')"
-    export XTARGET="x86_64-buildroot-linux-gnu"
+    export XTARGET="x86_64-bootstrap-linux-gnu"
     export KARCH="x86_64"
     export GCC_FLAGS="--disable-multilib --with-arch=x86-64 --with-tune=generic --enable-cet=auto"
     ;;
   aarch64)
     export XHOST="$(echo ${MACHTYPE} | sed -e 's/-[^-]*/-cross/')"
-    export XTARGET="aarch64-buildroot-linux-gnu"
+    export XTARGET="aarch64-bootstrap-linux-gnu"
     export KARCH="arm64"
     export GCC_FLAGS="--disable-multilib --with-arch=armv8-a --enable-fix-cortex-a53-835769 --enable-fix-cortex-a53-843419"
     ;;

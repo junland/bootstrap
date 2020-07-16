@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target-arch: [x86-64-core-i7, aarch64]
+        target-arch: [x86_64, aarch64]
     env:
       ACTION_TGT_ARCH: ${{matrix.target-arch}}
       DEBIAN_FRONTEND: noninteractive
@@ -28,10 +28,12 @@ jobs:
       run: sudo mv -fv /etc/bash.bashrc /etc/bash.bashrc.NOUSE | true
     - name: add tools symlink.
       run: sudo ln -sv ${GITHUB_WORKSPACE}/rootfs/tools /
-    - name: setup toolchain
-      run: ./setup.sh $ACTION_TGT_ARCH
-    - name: start build
-      run: ./build.sh $ACTION_TGT_ARCH
+    - name: setup
+      run: ./setup.sh
+    - name: build toolchain
+      run: ./build-toolchain.sh $ACTION_TGT_ARCH
+    - name: build chroot
+      run: ./build-chroot.sh $ACTION_TGT_ARCH
     - name: change ownership and archive stage 1 rootfs
       run: sudo chown root:root -v -R ./rootfs && sudo tar -cJf stage1-rootfs-$ACTION_TGT_ARCH.tar.xz -C ./rootfs .
     - uses: actions/upload-artifact@v2
