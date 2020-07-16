@@ -46,4 +46,4 @@ jobs:
       if: ${{ always() }}
       with:
         name: toolchain-${{matrix.target-arch}}-${{github.run_id}} 
-        path: ${{github.workspace}}/toolchain-$ACTION_TGT_ARCH.tar.xz 
+        path: ${{github.workspace}}/toolchain-${{matrix.target-arch}}.tar.xz 
