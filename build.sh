@@ -126,6 +126,6 @@ cd build
     $GCC_FLAGS \
     --enable-install-libiberty
     
-make AS_FOR_TARGET="${XTARGET}-as" LD_FOR_TARGET="${XTARGET}-ld"
+make AS_FOR_TARGET="$CWD/$TOOLCHAIN_ARCH--glibc--bleeding-edge-2020.02-2/bin/$XTARGET-as" LD_FOR_TARGET="$CWD/$TOOLCHAIN_ARCH--glibc--bleeding-edge-2020.02-2/bin/$XTARGET-ld"
 
 make install
