@@ -112,7 +112,7 @@ sed -i "/ac_cpp=/s/\$CPPFLAGS/\$CPPFLAGS -O2/" {libiberty,gcc}/configure
 
 cd build
 
-../configure \
+../configure PATH=$PATH \
     --prefix=/tools \
     --libdir=/tools/lib64 \
     --build=${XHOST} \
