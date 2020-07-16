@@ -66,3 +66,5 @@ make headers ARCH="$KARCH"
 find usr/include -name '.*' -delete && rm usr/include/Makefile
 
 cp -rv usr/include $ROOTFS_DIR/usr
+
+cp -rv usr/include $ROOTFS_DIR/tools
