@@ -39,7 +39,7 @@ jobs:
       run: sudo chown root:root -v -R ${GITHUB_WORKSPACE}/rootfs ${GITHUB_WORKSPACE}/toolchain && sudo tar -cJf ${GITHUB_WORKSPACE}/stage1-rootfs-$ACTION_TGT_ARCH.tar.xz -C ${GITHUB_WORKSPACE}/rootfs . && sudo tar -cJf ${GITHUB_WORKSPACE}/toolchain-$ACTION_TGT_ARCH.tar.xz -C ${GITHUB_WORKSPACE}/toolchain .
     - name: archive debug
       if: ${{ always() }}
-      run: sudo tar -cJf ${GITHUB_WORKSPACE}/debug-$ACTION_TGT_ARCH.tar.xz -C ${GITHUB_WORKSPACE}/gcc-10.1.0
+      run: sudo tar -cJf ${GITHUB_WORKSPACE}/debug-$ACTION_TGT_ARCH.tar.xz -C ${GITHUB_WORKSPACE}/gcc-10.1.0 .
     - uses: actions/upload-artifact@v2
       if: ${{ always() }}
       with:
