@@ -50,3 +50,8 @@ jobs:
       with:
         name: toolchain-${{matrix.target-arch}}-${{github.run_id}} 
         path: ${{github.workspace}}/debug-${{matrix.target-arch}}.tar.xz
+    - uses: actions/upload-artifact@v2
+        if: ${{ always() }}
+        with:
+          name: debug-${{matrix.target-arch}}-${{github.run_id}} 
+          path: ${{github.workspace}}/debug-${{matrix.target-arch}}.tar.xz
