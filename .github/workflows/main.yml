@@ -36,10 +36,10 @@ jobs:
       run: ./build-chroot.sh $ACTION_TGT_ARCH
     - name: change ownership and archive stage 1 rootfs
       if: ${{ always() }}
-      run: sudo chown root:root -v -R ./rootfs ./toolchain && sudo tar -cJf stage1-rootfs-$ACTION_TGT_ARCH.tar.xz -C ./rootfs . && sudo tar -cJf toolchain-$ACTION_TGT_ARCH.tar.xz -C ./toolchain .
+      run: sudo chown root:root -v -R ${GITHUB_WORKSPACE}/rootfs ${GITHUB_WORKSPACE}/toolchain && sudo tar -cJf ${GITHUB_WORKSPACE}/stage1-rootfs-$ACTION_TGT_ARCH.tar.xz -C ${GITHUB_WORKSPACE}/rootfs . && sudo tar -cJf ${GITHUB_WORKSPACE}/toolchain-$ACTION_TGT_ARCH.tar.xz -C ${GITHUB_WORKSPACE}/toolchain .
     - name: archive debug
       if: ${{ always() }}
-      run: sudo tar -cJf debug-$ACTION_TGT_ARCH.tar.xz -C gcc-10.1.0
+      run: sudo tar -cJf ${GITHUB_WORKSPACE}/debug-$ACTION_TGT_ARCH.tar.xz -C ${GITHUB_WORKSPACE}/gcc-10.1.0
     - uses: actions/upload-artifact@v2
       if: ${{ always() }}
       with:
