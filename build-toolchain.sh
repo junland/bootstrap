@@ -32,9 +32,9 @@ PrepareSources() {
 
   cd gcc-src
 
-  sed -i '/lp64=/s/lib64/lib/' gcc/config/aarch64/t-aarch64-linux
+  #sed -i '/lp64=/s/lib64/lib/' gcc/config/aarch64/t-aarch64-linux
 
-  sed -i '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
+  #sed -i '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
 
   contrib/download_prerequisites
 }
