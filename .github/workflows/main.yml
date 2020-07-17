@@ -37,6 +37,9 @@ jobs:
     - name: change ownership and archive stage 1 rootfs
       if: ${{ always() }}
       run: sudo chown root:root -v -R ./rootfs ./toolchain && sudo tar -cJf stage1-rootfs-$ACTION_TGT_ARCH.tar.xz -C ./rootfs . && sudo tar -cJf toolchain-$ACTION_TGT_ARCH.tar.xz -C ./toolchain .
+    - name: archive debug
+      if: ${{ always() }}
+      run: sudo tar -cJf debug-$ACTION_TGT_ARCH.tar.xz -C gcc-10.1.0
     - uses: actions/upload-artifact@v2
       if: ${{ always() }}
       with:
@@ -46,4 +49,4 @@ jobs:
       if: ${{ always() }}
       with:
         name: toolchain-${{matrix.target-arch}}-${{github.run_id}} 
-        path: ${{github.workspace}}/toolchain-${{matrix.target-arch}}.tar.xz 
+        path: ${{github.workspace}}/debug-${{matrix.target-arch}}.tar.xz
