@@ -165,7 +165,7 @@ main() {
   LINUX_VER_MAJ=$(echo $LINUX_VER | grep -o -E '[0-9]+' | head -1 | sed -e 's/^0\+//')
   BINUTILS_VER=2.31
   GLIBC_VER=2.31
-  GCC_VER=10.1.0
+  GCC_VER=9.3.0
 
   if [ "$1" == "" ]; then
     echo "Please specify a architecture to build."
