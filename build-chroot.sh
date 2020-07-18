@@ -112,6 +112,10 @@ sed -i '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
 
 sed -i "/ac_cpp=/s/\$CPPFLAGS/\$CPPFLAGS -O2/" {libiberty,gcc}/configure
 
+wget http://www.linuxfromscratch.org/patches/lfs/development/gcc-10.1.0-cet_fix-1.patch
+
+patch -Np1 -i ./gcc-10.1.0-cet_fix-1.patch
+
 cd build
 
 msg "My PATH -- $PATH"
