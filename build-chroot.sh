@@ -125,10 +125,10 @@ msg "My PATH -- $PATH"
     --with-local-prefix=/tools \
     --enable-languages=c,c++ \
     --with-system-zlib \
+    --disable-bootstrap \
     --with-native-system-header-dir=/tools/include \
     --disable-libssp \
     $GCC_FLAGS \
-    --enable-install-libiberty
     
 make AS_FOR_TARGET="$XTARGET-as" LD_FOR_TARGET="$XTARGET-ld"
 
