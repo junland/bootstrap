@@ -1,4 +1,4 @@
-cd $STRAP_SOURCES
+init_stage
 
 msg "Extracting linux..."
 
@@ -17,6 +17,8 @@ find dest/include -name '.*' -delete
 mkdir -p ${STRAP_ROOTFS}/usr/include
 
 cp -rv dest/include/* ${STRAP_ROOTFS}/usr/include
+
+asdfasdfasdf
 
 msg "Cleaning up..."
 
