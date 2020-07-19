@@ -94,7 +94,7 @@ msg "Build and install zlib..."
 
 cd ./zlib-1.2.11
 
-./configure --prefix=/tools
+./configure --prefix=/tools --libdir=/tools/lib64
 
 make
 
