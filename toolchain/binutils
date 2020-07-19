@@ -1,0 +1,36 @@
+cd $STRAP_SOURCES
+
+msg "Extracting binutils..."
+
+tar -xf ./binutils-2.34.tar.xz
+
+cd binutils-2.34
+
+mkdir binutils-build 
+
+cd binutils-build
+
+msg "Configure binutils..."
+
+../configure                             \
+	--prefix=${STRAP_ROOTFS}/cross-tools \
+	--target=${STRAP_TARGET}             \
+	--with-sysroot=${STAP_ROOTFS}        \
+	--disable-nls                        \
+    --disable-multilib
+
+msg "Configure host..."
+
+make configure-host
+
+msg "Compile binutils...
+
+make
+
+msg "Install binutils..."
+
+make install
+
+msg "Cleaning up binutils..."
+
+rm -rf $STRAP_SOURCES/binutils-2.34
