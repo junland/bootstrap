@@ -21,19 +21,23 @@ run_stage() {
 
     chmod +x $STRAP_CWD/$stage_target
 
-    source $STRAP_CWD/bootstrap.env
+    . $STRAP_CWD/bootstrap.env
 
     stage_name=$(echo ${stage_target} | sed 's/\//\-/g')
 
     msg "Running stage: $stage_name ($stage_target)"
 
-    set -e -o pipefail
+    set -e
 
     $STRAP_CWD/$stage_target 2>&1 | tee $STRAP_CWD/logs/$stage_name.log
 
-    msg "Done with stage: $stage_name ($stage_target)"
-
-    touch $STRAP_CWD/logs/$stage_name.done
+    if [ "${PIPESTATUS[0]}" -ne "0" ]; then
+        msg "Something went wrong with $stage_name ($stage_target), check the logs..."
+        exit 1
+    else
+        msg "Done with stage: $stage_name ($stage_target)"
+        touch $STRAP_CWD/logs/$stage_name.done
+    fi
 }
 
 export -f run_stage
