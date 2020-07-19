@@ -2,3 +2,4 @@ bootstrap.
 rootfs.*
 rootfs/
 progress/
+logs/

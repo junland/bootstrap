@@ -50,9 +50,9 @@ chmod +x $CWD/bootstrap.env
 
 source $CWD/bootstrap.env
 
-msg "Creating progress directory..."
+msg "Creating log directory..."
 
-mkdir -vp $CWD/progress
+mkdir -vp $CWD/logs
 
 msg "Creating rootfs directory..."
 

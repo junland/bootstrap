@@ -33,7 +33,7 @@ jobs:
     ### Post steps ###
     - name: change ownership and archive stage 1 rootfs
       if: ${{ always() }}
-      run: sudo chown root:root -v -R ${GITHUB_WORKSPACE}/rootfs && sudo tar -cJf ${GITHUB_WORKSPACE}/rootfs-$ACTION_TGT_ARCH.tar.xz -C ${GITHUB_WORKSPACE}/rootfs .
+      run: cp $${GITHUB_WORKSPACE}/logs rootfs/logs && sudo chown root:root -v -R ${GITHUB_WORKSPACE}/rootfs && sudo tar -cJf ${GITHUB_WORKSPACE}/rootfs-$ACTION_TGT_ARCH.tar.xz -C ${GITHUB_WORKSPACE}/rootfs .
     - uses: actions/upload-artifact@v2
       if: ${{ always() }}
       with:

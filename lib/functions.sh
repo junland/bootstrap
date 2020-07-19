@@ -29,11 +29,11 @@ run_stage() {
 
     stage_name=$(echo ${stage_target} | sed 's/\//\-/g')
 
-    $STRAP_CWD/$stage_target 2>&1 | tee $STRAP_CWD/progress/$stage_name.log
+    $STRAP_CWD/$stage_target 2>&1 | tee $STRAP_CWD/logs/$stage_name.log
 
     msg "Done with stage: $stage_name ($stage_target)"
 
-    touch $STRAP_CWD/progress/$stage_name.done
+    touch $STRAP_CWD/logs/$stage_name.done
 }
 
 export -f run_stage
