@@ -82,6 +82,26 @@ cp -rv usr/include $ROOTFS_DIR/tools
 
 cd ..
 
+msg "Download zlib..."
+
+wget https://zlib.net/zlib-1.2.11.tar.gz
+
+msg "Unpack zlib..."
+
+tar -xvf ./zlib-1.2.11.tar.gz
+
+msg "Build and install zlib..."
+
+cd ./zlib-1.2.11
+
+./configure --prefix=/tools
+
+make
+
+make install
+
+cd ..
+
 msg "Download GCC..."
 
 wget -q http://ftp.gnu.org/gnu/gcc/gcc-10.1.0/gcc-10.1.0.tar.xz
