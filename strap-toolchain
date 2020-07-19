@@ -54,9 +54,13 @@ fi
 
 set --
 
+msg "Setting up enviroment..."
+
 chmod +x $CWD/bootstrap.env
 
 . $CWD/bootstrap.env
+
+msg "Running stages..."
 
 run_stage toolchain/sources
 run_stage toolchain/linux-headers

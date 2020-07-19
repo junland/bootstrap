@@ -49,6 +49,6 @@ mkdir -vp $CWD/progress
 
 msg "Creating rootfs directory..."
 
-mkdir -vp $STRAP_ROOTFS
+mkdir -vp "$STRAP_ROOTFS"
 
-mkdir -vp $STRAP_SOURCES
+mkdir -vp "$STRAP_SOURCES"
