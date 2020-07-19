@@ -6,9 +6,15 @@ tar -xf ./linux-5.7.tar.xz
 
 cd linux-5.7
 
+msg "Checking linux..."
+
 make mrproper
 
+msg "Checking headers linux..."
+
 make ARCH=${STRAP_KARCH} headers_check
+
+msg "Building headers linux..."
 
 make ARCH=${STRAP_KARCH} INSTALL_HDR_PATH=dest headers_install
 
