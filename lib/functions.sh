@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 msg() {
   echo " >>> $1"
@@ -36,18 +36,7 @@ run_stage() {
     touch $STRAP_CWD/logs/$stage_name.done
 }
 
-init_stage() {
-    "Setting basic paramters..."
-
-    set -e
-
-    set +h
-
-    cd $STRAP_SOURCES
-}
-
 export -f run_stage
-export -f init_stage
 export -f msg
 
 msg "Functions loaded..."
