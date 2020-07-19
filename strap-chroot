@@ -21,13 +21,13 @@ run_stage() {
 
     chmod +x $CWD/$stage_target
 
-    . $CWD/bootstrap.env
+    source $CWD/bootstrap.env
 
     msg "Running stage: $stage_target"
 
     set -e
 
-    . $CWD/bootstrap.env 2>&1 | tee $CWD/progress/$stage_target.log
+    source $CWD/bootstrap.env 2>&1 | tee $CWD/progress/$stage_target.log
 
     msg "Done with stage: $stage_target"
 
@@ -58,6 +58,6 @@ msg "Setting up enviroment..."
 
 chmod +x $CWD/bootstrap.env
 
-. $CWD/bootstrap.env
+source $CWD/bootstrap.env
 
 msg "Running stages..."
