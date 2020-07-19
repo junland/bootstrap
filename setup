@@ -22,6 +22,7 @@ set --
 
 cat > $CWD/bootstrap.env << EOF
 ## BOOTSTRAP ENV FILE ##
+set -e
 umask 022
 
 STRAP_CWD=$CWD

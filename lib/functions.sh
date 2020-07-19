@@ -8,22 +8,22 @@ run_stage() {
     stage_target=$1
 
     export stage_target
+
+    stage_name=$(echo ${stage_target} | sed 's/\//\-/g')
     
     if ! test -f $STRAP_CWD/$stage_target; then
       msg "Stage script does not exist: $stage_target"
       exit 1
     fi
 
-    if test -f $STRAP_CWD/progress/$stage_target.done; then
-      msg "Stage $stage_target has already been completed, skipping..."
+    if test -f $STRAP_CWD/logs/$stage_name.done; then
+      msg "Stage $stage_name has already been completed, skipping..."
       return
     fi
 
     chmod +x $STRAP_CWD/$stage_target
 
     . $STRAP_CWD/bootstrap.env
-
-    stage_name=$(echo ${stage_target} | sed 's/\//\-/g')
 
     msg "Running stage: $stage_name ($stage_target)"
 
