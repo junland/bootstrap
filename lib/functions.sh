@@ -29,7 +29,7 @@ run_stage() {
 
     stg_name=$(echo ${stage_target} | sed 's/\//\-/g')
 
-    source $CWD/bootstrap.env 2>&1 | tee $CWD/progress/$stg_name.log
+    . $CWD/bootstrap.env 2>&1 | tee $CWD/progress/$stg_name.log
 
     msg "Done with stage: $stage_target"
 
