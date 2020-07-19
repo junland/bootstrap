@@ -1,40 +1,6 @@
 #!/bin/bash -e
 
-msg() {
-  echo " >>> $1"
-}
-
-export -f msg
-
-run_stage() {
-    stage_target=$1
-    
-    if ! test -f $CWD/$stage_target; then
-      msg "Stage script does not exist: $stage_target"
-      exit 1
-    fi
-
-    if test -f $CWD/progress/$stage_target.done; then
-      msg "Stage $stage_target has already been completed, skipping..."
-      return
-    fi
-
-    chmod +x $CWD/$stage_target
-
-    set -e
-
-    LOG_NAME=$(echo ${stage_target}.log | sed 's/\//\-/g')
-
-    source $CWD/bootstrap.env 2>&1 | tee $CWD/progress/$LOG_NAME
-
-    msg "Running stage: $stage_target"
-
-    source $CWD/$stage_target | tee 
-
-    msg "Done with stage: $stage_target"
-
-    touch $CWD/progress/$stage_target.done
-}
+source lib/functions.sh
 
 CWD=$(pwd)
 umask 022

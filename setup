@@ -1,8 +1,6 @@
 #!/bin/bash -e
 
-msg() {
-  echo " >>> $1"
-}
+source lib/functions.sh
 
 CWD=$(pwd)
 umask 022
