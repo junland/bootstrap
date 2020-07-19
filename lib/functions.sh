@@ -7,7 +7,7 @@ msg() {
 run_stage() {
     stage_target=$1
 
-    export $stage_target
+    export stage_target
     
     if ! test -f $CWD/$stage_target; then
       msg "Stage script does not exist: $stage_target"
