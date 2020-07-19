@@ -23,11 +23,11 @@ run_stage() {
 
     source $STRAP_CWD/bootstrap.env
 
+    stage_name=$(echo ${stage_target} | sed 's/\//\-/g')
+
     msg "Running stage: $stage_name ($stage_target)"
 
-    set -e
-
-    stage_name=$(echo ${stage_target} | sed 's/\//\-/g')
+    set -e -o pipefail
 
     $STRAP_CWD/$stage_target 2>&1 | tee $STRAP_CWD/logs/$stage_name.log
 
