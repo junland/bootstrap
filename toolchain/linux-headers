@@ -1,22 +1,24 @@
 cd $STRAP_SOURCES
 
-msg "Extracting linux..."
+msg "Extracting linux-headers..."
 
 tar -xf ./linux-5.7.tar.xz
 
 cd linux-5.7
 
-msg "Checking linux..."
+msg "Checking linux-headers..."
 
 make mrproper
 
-msg "Checking headers linux..."
+msg "Checking linux-headers..."
 
 make ARCH=${STRAP_KARCH} headers_check
 
-msg "Building headers linux..."
+msg "Building linux-headers..."
 
 make ARCH=${STRAP_KARCH} INSTALL_HDR_PATH=dest headers_install
+
+msg "Installing linux-headers..."
 
 find dest/include -name '.*' -delete
 
@@ -24,8 +26,6 @@ mkdir -p ${STRAP_ROOTFS}/usr/include
 
 cp -rv dest/include/* ${STRAP_ROOTFS}/usr/include
 
-asdfasdfasdf
-
-msg "Cleaning up..."
+msg "Cleaning up linux-headers..."
 
 rm -rf $STRAP_SOURCES/linux-5.7
