@@ -29,7 +29,12 @@ run_stage() {
 
     set -e
 
-    $STRAP_CWD/$stage_target 2>&1 | tee $STRAP_CWD/logs/$stage_name.log ; test ${PIPESTATUS[0]} -eq 0
+    $STRAP_CWD/$stage_target 2>&1 | tee $STRAP_CWD/logs/$stage_name.log
+
+    if [ "${PIPESTATUS[0]}" -ne "0" ]; then
+       msg "Something went wrong with $stage_name, check the last few lines of logs to see the error."
+       exit 1
+    fi
 
     msg "Done with stage: $stage_name ($stage_target)"
     
