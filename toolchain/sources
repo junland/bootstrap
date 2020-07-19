@@ -1,0 +1,7 @@
+msg "Getting sources..."
+
+mkdir -vp $STRAP_SOURCES
+
+chmod -v a+xwt $STRAP_SOURCES
+
+wget -c -i $STRAP_CWD/toolchain/sources.list -P $STRAP_SOURCES

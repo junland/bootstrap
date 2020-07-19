@@ -1,0 +1,5 @@
+STRAP=$CWD/rootfs
+STRAP_ARCH=x86_64
+STRAP_KARCH=x86_64
+STRAP_TARGET=x86_64-bootstrap-linux-gnu
+PNUM=2

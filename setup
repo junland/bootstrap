@@ -1,0 +1,54 @@
+#!/bin/bash -e
+
+msg() {
+  echo " >>> $1"
+}
+
+CWD=$(pwd)
+umask 022
+
+if [ "$1" == "" ]; then
+  msg "Please specify a architecture to build."
+  exit 1
+fi
+
+if ! test -f targets/$1.tgt; then
+  msg "$1 target file does not exist."
+  exit 1
+fi
+
+chmod +x targets/$1.tgt
+. targets/$1.tgt
+
+set --
+
+cat > $CWD/bootstrap.env << EOF
+export HOME=$HOME
+export TERM=$TERM
+export STRAP_CWD=$CWD
+export STRAP_ROOTFS=$STRAP_ROOTFS
+export STRAP_SOURCES=$STRAP_ROOTFS/sources
+export STRAP_KARCH=$STRAP_KARCH
+export MAKEFLAGS=$MAKEFLAGS
+export PS1='\u:\w\$ '
+umask 022
+LC_ALL=POSIX
+PATH=${STRAP_ROOTFS}/cross-tools/bin:/bin:/usr/bin
+export STRAP_ROOTFS LC_ALL PATH
+export STRAP_HOST=$(echo ${MACHTYPE} | sed "s/-[^-]*/-cross/")
+export STRAP_TARGET=$STRAP_TARGET
+EOF
+
+chmod +x $CWD/bootstrap.env
+
+. $CWD/bootstrap.env
+
+msg "Creating progress directory..."
+
+mkdir -vp $CWD/progress
+
+msg "Creating rootfs directory..."
+
+mkdir -vp $STRAP_ROOTFS
+
+mkdir -vp $STRAP_SOURCES

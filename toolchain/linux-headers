@@ -1,0 +1,17 @@
+cd $STRAP_SOURCES
+
+tar -xvf ./linux-5.7.tar.xz
+
+cd linux-5.7
+
+make mrproper
+
+make ARCH=${STRAP_KARCH} headers_check
+
+make ARCH=${STRAP_KARCH} INSTALL_HDR_PATH=dest headers_install
+
+find dest/include -name '.*' -delete
+
+mkdir -p ${MYOS}/usr/include
+
+cp -rv dest/include/* ${STRAP_ROOTFS}/usr/include
