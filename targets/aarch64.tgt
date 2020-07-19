@@ -1,4 +1,4 @@
-STRAP=$CWD/rootfs
+STRAP_ROOTFS=$CWD/rootfs
 STRAP_ARCH=aarch64
 STRAP_KARCH=arm64
 STRAP_TARGET=aarch64-bootstrap-linux-gnu
