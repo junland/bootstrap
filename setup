@@ -35,7 +35,7 @@ export STRAP_CWD STRAP_ROOTFS STRAP_SOURCES STRAP_HOST STRAP_TARGET
 LC_ALL=POSIX
 PS1='\u:\w\$ '
 TERM=$TERM
-PATH=${STRAP_ROOTFS}/cross-tools/bin:/bin:/usr/bin
+PATH=${STRAP_ROOTFS}/cross-tools/bin:/bin:/usr/bin:/sbin:/usr/sbin
 export PATH LC_ALL PS1 TERM
 ## END OF ENV ##
 EOF
