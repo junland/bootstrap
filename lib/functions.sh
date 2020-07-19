@@ -23,17 +23,17 @@ run_stage() {
 
     source $STRAP_CWD/bootstrap.env
 
-    msg "Running stage: $stage_target"
+    msg "Running stage: $stage_name ($stage_target)"
 
     set -e
 
-    stg_name=$(echo ${stage_target} | sed 's/\//\-/g')
+    stage_name=$(echo ${stage_target} | sed 's/\//\-/g')
 
-    . $STRAP_CWD/bootstrap.env 2>&1 | tee $STRAP_CWD/progress/$stg_name.log
+    . $STRAP_CWD/stage_target 2>&1 | tee $STRAP_CWD/progress/$stage_name.log
 
-    msg "Done with stage: $stage_target"
+    msg "Done with stage: $stage_name ($stage_target)"
 
-    touch $STRAP_CWD/progress/$stg_name.done
+    touch $STRAP_CWD/progress/$stage_name.done
 }
 
 export -f run_stage
