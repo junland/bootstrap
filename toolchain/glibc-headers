@@ -24,11 +24,11 @@ echo "libc_cv_ssp=no" >> config.cache
 
 msg "Install glibc..."
 
-make install-bootsrap-headers=yes install-headers DESTDIR=${STRAP_ROOTFS}
+make -j${PNUM} install-bootsrap-headers=yes install-headers DESTDIR=${STRAP_ROOTFS}
 
 msg "Finish up glibc install..."
 
-make csu/subdir_lib
+make -j${PNUM} csu/subdir_lib
 
 mkdir -pv ${MYOS}/usr/lib
 

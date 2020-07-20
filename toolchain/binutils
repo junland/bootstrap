@@ -23,11 +23,11 @@ make configure-host
 
 msg "Compile binutils..."
 
-make
+make -j${PNUM}
 
 msg "Install binutils..."
 
-make install
+make -j${PNUM} install
 
 msg "Cleaning up binutils..."
 

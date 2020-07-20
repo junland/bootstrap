@@ -12,11 +12,11 @@ make mrproper
 
 msg "Checking linux-headers..."
 
-make ARCH=${STRAP_KARCH} headers_check
+make -j${PNUM} ARCH=${STRAP_KARCH} headers_check
 
 msg "Building linux-headers..."
 
-make ARCH=${STRAP_KARCH} INSTALL_HDR_PATH=dest headers_install
+make -j${PNUM} ARCH=${STRAP_KARCH} INSTALL_HDR_PATH=dest headers_install
 
 msg "Installing linux-headers..."
 
