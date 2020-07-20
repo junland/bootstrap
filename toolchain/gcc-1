@@ -17,9 +17,9 @@ esac
 
 msg "Extracting gcc-1..."
 
-tar -xf ./gcc-9.3.tar.xz
+tar -xf gcc-9.3.0.tar.xz
 
-cd gcc-9.3
+cd gcc-9.3.0
 
 msg "Extract gcc deps..."
 
@@ -63,4 +63,4 @@ make install-gcc
 
 msg "Cleaning up gcc-1..."
 
-rm -rf $STRAP_SOURCES/gcc-9.3 $STRAP_SOURCES/gcc-build
+rm -rf $STRAP_SOURCES/gcc-9.3.0 $STRAP_SOURCES/gcc-build
