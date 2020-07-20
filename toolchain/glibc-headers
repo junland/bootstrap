@@ -1,0 +1,41 @@
+cd $STRAP_SOURCES
+
+msg "Extract glibc..."
+
+tar -xf glibc-2.31.tar.xz
+
+mkdir -p $STRAP_SOURCES/glibc-build
+
+cd $STRAP_SOURCES/glibc-build
+
+msg "Configure glibc..."
+
+echo "libc_cv_forced_unwind=yes" > config.cache 
+echo "libc_cv_c_cleanup=yes" >> config.cache
+echo "libc_cv_ssp=no" >> config.cache
+
+../glibc-2.31/configure \
+    --prefix=/usr \
+    --host=${STRAP_TARGET} \
+	--build=${STRAP_HOST} \
+	--with-headers=${STRAP_ROOTFS}/usr/include \
+	--disable-multilib \
+	--cache-file=$STRAP_SOURCES/glibc-build/config.cache
+
+msg "Install glibc..."
+
+make install-bootsrap-headers=yes install-headers DESTDIR=${STRAP_ROOTFS}
+
+msg "Finish up glibc install..."
+
+make csu/subdir_lib
+
+mkdir -pv ${MYOS}/usr/lib
+
+install -v csu/crt1.o csu/crti.o csu/crtn.o ${STRAP_ROOTFS}/usr/lib
+
+${STRAP_TARGET}-gcc -nostdlib -nostartfiles -shared -x c /dev/null -o ${STRAP_ROOTFS}/usr/lib/libc.so
+
+touch ${STRAP_ROOTFS}/usr/include/gnu/stubs.h
+
+rm -rf $STRAP_SOURCES/glibc-2.31 $STRAP_SOURCES/glibc-build

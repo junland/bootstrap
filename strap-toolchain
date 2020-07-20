@@ -33,3 +33,5 @@ msg "Running stages..."
 run_stage toolchain/sources
 run_stage toolchain/linux-headers
 run_stage toolchain/binutils
+run_stage toolchain/gcc-1
+run_stage toolchain/glibc-headers

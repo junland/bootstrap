@@ -4,15 +4,13 @@ msg "Extracting binutils..."
 
 tar -xf ./binutils-2.34.tar.xz
 
-cd binutils-2.34
+mkdir -p $STRAP_SOURCES/binutils-build 
 
-mkdir binutils-build 
-
-cd binutils-build
+cd $STRAP_SOURCES/binutils-build
 
 msg "Configure binutils..."
 
-../configure                             \
+../binutils-2.34/configure               \
 	--prefix=${STRAP_ROOTFS}/cross-tools \
 	--target=${STRAP_TARGET}             \
 	--with-sysroot=${STAP_ROOTFS}        \
@@ -33,4 +31,4 @@ make install
 
 msg "Cleaning up binutils..."
 
-rm -rf $STRAP_SOURCES/binutils-2.34
+rm -rf $STRAP_SOURCES/binutils-2.34 $STRAP_SOURCES/binutils-build
