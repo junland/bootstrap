@@ -23,7 +23,7 @@ msg "Configure host..."
 
 make configure-host
 
-msg "Compile binutils...
+msg "Compile binutils..."
 
 make
 
