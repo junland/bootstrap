@@ -1,4 +1,4 @@
-name: Multi-Arch Builder
+name: Multi-Arch Bootstraper
 
 on:
   push:
