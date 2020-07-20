@@ -30,7 +30,7 @@ msg "Finish up glibc install..."
 
 make -j${PNUM} csu/subdir_lib
 
-mkdir -pv ${MYOS}/usr/lib
+mkdir -pv ${STRAP_ROOTFS}/usr/lib
 
 install -v csu/crt1.o csu/crti.o csu/crtn.o ${STRAP_ROOTFS}/usr/lib
 
