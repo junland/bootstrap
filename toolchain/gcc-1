@@ -10,7 +10,7 @@ case "$STRAP_ARCH" in
         export GCC_OPTIONS
         ;;
     *)
-        msg "Architecture is not set or is not supported!"
+        msg "Architecture is not set or is not supported! (Selected: $STRAP_ARCH)"
         exit 1
         ;;
 esac
