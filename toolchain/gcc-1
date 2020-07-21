@@ -45,9 +45,10 @@ msg "Configuring gcc-1..."
   --host=${STRAP_HOST} \
   --target=${STRAP_TARGET} \
   --with-sysroot=${STRAP_ROOTFS} \
-  --disable-nls  \
+  --disable-nls \
   --disable-libsanitizer \
   --enable-languages=c \
+  --disable-libstdcxx \
   --disable-multilib \
   $GCC_OPTIONS
 
