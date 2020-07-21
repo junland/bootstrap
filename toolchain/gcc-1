@@ -47,8 +47,7 @@ msg "Configuring gcc-1..."
   --with-sysroot=${STRAP_ROOTFS} \
   --disable-nls \
   --disable-libsanitizer \
-  --enable-languages=c \
-  --disable-libstdcxx \
+  --enable-languages=c,c++ \
   --disable-multilib \
   $GCC_OPTIONS
 
