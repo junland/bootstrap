@@ -31,4 +31,4 @@ make -j${PNUM} install
 
 msg "Cleaning up binutils..."
 
-rm -rf $STRAP_SOURCES/binutils-2.34 $STRAP_SOURCES/binutils-build
+rm -rf $STRAP_SOURCES/binutils-*/

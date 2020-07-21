@@ -28,4 +28,4 @@ cp -rv dest/include/* ${STRAP_ROOTFS}/usr/include
 
 msg "Cleaning up linux-headers..."
 
-rm -rf $STRAP_SOURCES/linux-5.7
+rm -rf $STRAP_SOURCES/linux-*/

@@ -10,4 +10,4 @@ make -j${PNUM} install DESTDIR=${STRAP_ROOTFS}
 
 msg "Cleaning up glibc..."
 
-rm -rf $STRAP_SOURCES/glibc-*
+rm -rf $STRAP_SOURCES/glibc-*/
