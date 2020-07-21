@@ -1,0 +1,9 @@
+cd $STRAP_SOURCES/gcc-build
+
+msg "Building libgcc..."
+
+make -j${PNUM} all-target-libgcc
+
+msg "Installing libgcc..."
+
+make install-target-libgcc
