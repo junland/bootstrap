@@ -20,6 +20,7 @@ echo "libc_cv_ssp=no" >> $STRAP_SOURCES/glibc-build/config.cache
 	--build=${STRAP_HOST} \
 	--with-headers=${STRAP_ROOTFS}/usr/include \
 	--disable-multilib \
+	--disable-werror \
 	--cache-file=$STRAP_SOURCES/glibc-build/config.cache
 
 msg "Install glibc..."
