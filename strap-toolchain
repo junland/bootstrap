@@ -36,3 +36,4 @@ run_stage toolchain/binutils
 run_stage toolchain/gcc-1
 run_stage toolchain/glibc-headers
 run_stage toolchain/libgcc
+run_stage toolchain/glibc
