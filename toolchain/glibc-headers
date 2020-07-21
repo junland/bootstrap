@@ -38,4 +38,6 @@ ${STRAP_TARGET}-gcc -nostdlib -nostartfiles -shared -x c /dev/null -o ${STRAP_RO
 
 touch ${STRAP_ROOTFS}/usr/include/gnu/stubs.h
 
+msg "Cleaning up glibc..."
+
 rm -rf $STRAP_SOURCES/glibc-2.31 $STRAP_SOURCES/glibc-build
