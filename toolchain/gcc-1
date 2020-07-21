@@ -33,9 +33,9 @@ mv -v $STRAP_SOURCES/mpc-1.1.0 $STRAP_SOURCES/gcc-9.3.0/mpc
 
 mv -v $STRAP_SOURCES/mpfr-4.0.2 $STRAP_SOURCES/gcc-9.3.0/mpfr
 
-mkdir -p $STRAP_SOURCES/binutils-build 
+mkdir -p $STRAP_SOURCES/gcc-build 
 
-cd $STRAP_SOURCES/binutils-build
+cd $STRAP_SOURCES/gcc-build
 
 msg "Configuring gcc-1..."
 
@@ -59,6 +59,4 @@ msg "Installing gcc-1..."
 
 make -j${PNUM} install-gcc
 
-msg "Cleaning up gcc-1..."
-
-rm -rf $STRAP_SOURCES/gcc-9.3.0 $STRAP_SOURCES/gcc-build
+msg "Skipping of cleaning up gcc-1..."
