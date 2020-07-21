@@ -59,4 +59,4 @@ msg "Installing gcc-1..."
 
 make -j${PNUM} install-gcc
 
-msg "Skipping of cleaning up gcc-1..."
+msg "Skip cleaning up gcc-1..."
