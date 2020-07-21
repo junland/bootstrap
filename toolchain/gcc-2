@@ -1,0 +1,28 @@
+cd $STRAP_SOURCES/gcc-9.3.0
+
+cp `dirname $($STRAP_TARGET-gcc -print-libgcc-file-name)`/include-fixed/limits.h $STRAP_ROOTFS/cross-tools/backup/limits.h
+
+msg "Fix problem with glibc-2.31"
+
+sed -e '1161 s|^|//|' \
+	-i libsanitizer/sanitizer_common/sanitizer_platform_limits_posix.cc
+
+cd $STRAP_SOURCES/gcc-build
+
+msg "Building gcc-2..."
+
+make -j${PNUM}
+
+msg "Installing gcc-2..."
+
+make -j${PNUM} install
+
+msg "Replace limits.h..."
+
+cd $STRAP_SOURCES/gcc-9.3.0
+cat gcc/limitx.h gcc/glimits.h gcc/limity.h > \
+	`dirname $($STRAP_TARGET-gcc -print-libgcc-file-name)`/include-fixed/limits.h
+
+msg "Cleaning up gcc..."
+
+rm -rf $STRAP_SOURCES/gcc-*/
