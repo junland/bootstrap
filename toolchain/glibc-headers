@@ -19,7 +19,7 @@ echo "libc_cv_ssp=no" >> $STRAP_SOURCES/glibc-build/config.cache
     --host=${STRAP_TARGET} \
 	--build=${STRAP_HOST} \
 	--with-headers=${STRAP_ROOTFS}/usr/include \
-	--with-binutils=${STRAP_ROOTFS}/cross-tools/bin
+	--with-binutils=${STRAP_ROOTFS}/cross-tools/bin \
 	--disable-multilib \
 	--cache-file=$STRAP_SOURCES/glibc-build/config.cache
 
