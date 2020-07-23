@@ -40,8 +40,6 @@ msg "Installing gcc-2..."
 
 make -j${PNUM} install
 
-msg "Replace limits.h..."
-
 msg "Cleaning up gcc..."
 
 rm -rf $STRAP_SOURCES/gcc-*/

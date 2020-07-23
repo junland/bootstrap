@@ -78,4 +78,6 @@ msg "Installing gcc-1..."
 
 make -j${PNUM} install
 
-msg "Skip cleaning up gcc-1..."
+msg "Cleaning up gcc-1 build..."
+
+rm -rf $STRAP_SOURCES/gcc-build 
