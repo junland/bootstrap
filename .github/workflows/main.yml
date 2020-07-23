@@ -2,9 +2,9 @@ name: Multi-Arch Bootstraper 3
 
 on:
   push:
-    branches: [ alt-bootstrap ]
+    branches: [ alt-bootstrap-2 ]
   pull_request:
-    branches: [ alt-bootstrap ]
+    branches: [ alt-bootstrap-2 ]
 
 jobs:  
   build:
