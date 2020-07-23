@@ -67,8 +67,12 @@ msg "Creating toolchain directory..."
 
 mkdir -vp "$STRAP_TOOLS"
 
+msg "Creating toolchain sysroot directory..."
+
 mkdir -vp "$STRAP_TOOLS/sysroot"
 
 mkdir -vp "$STRAP_TOOLS/sysroot/lib"
 
 mkdir -vp "$STRAP_TOOLS/sysroot/usr/lib"
+
+mkdir -vp "$STRAP_TOOLS/sysroot/usr/include"
