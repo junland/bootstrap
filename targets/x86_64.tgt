@@ -1,4 +1,5 @@
 STRAP_ROOTFS=$CWD/rootfs
+STRAP_TOOLS=$CWD/toolchain
 STRAP_ARCH=x86_64
 STRAP_KARCH=x86_64
 STRAP_TARGET=x86_64-bootstrap-linux-gnu

@@ -1,13 +1,47 @@
+cd $STRAP_SOURCES
+
+export CC="$STRAP_TARGET-gcc"
+export CXX="$STRAP_TARGET-g++"
+export AR="$STRAP_TARGET-ar"
+export AS="$STRAP_TARGET-as"
+export RANLIB="$STRAP_TARGET-ranlib"
+export LD="$STRAP_TARGET-ld"
+export STRIP="$STRAP_TARGET-strip"
+export OBJCOPY="$STRAP_TARGET-objcopy"
+export OBJDUMP="$STRAP_TARGET-objdump"
+
+
+msg "Extract glibc..."
+
+tar -xf glibc-2.31.tar.xz
+
+mkdir -p $STRAP_SOURCES/glibc-build
+
 cd $STRAP_SOURCES/glibc-build
 
-msg "Building final glibc..."
+msg "Configure glibc..."
 
-make -j${PNUM}
+echo "libc_cv_forced_unwind=yes" > $STRAP_SOURCES/glibc-build/configparms
+echo "libc_cv_c_cleanup=yes" >> $STRAP_SOURCES/glibc-build/configparms
+echo "libc_cv_ssp=no" >> $STRAP_SOURCES/glibc-build/configparms
+echo "slibdir=/usr/lib" >> $STRAP_SOURCES/glibc-build/configparms
+echo "rtlddir=/usr/lib" >> $STRAP_SOURCES/glibc-build/configparms
 
-msg "Installing final glibc..."
+../glibc-2.31/configure \
+    --prefix=/usr \
+    --libdir=/usr/lib \
+    --libexecdir=/usr/lib \
+    --build=$HOST \
+    --host=$TARGET \
+    --disable-profile \
+    --disable-werror
 
-make -j${PNUM} install DESTDIR=${STRAP_ROOTFS}
+msg "Building glibc..."
 
-msg "Cleaning up glibc..."
+make -j${PNUM} all
 
-rm -rf $STRAP_SOURCES/glibc-*/
+msg "Installing glibc..."
+
+make install install_root=$STRAP_TOOLS/sysroot
+
+msg "Skip cleaning up glibc..."

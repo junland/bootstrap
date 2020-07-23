@@ -24,7 +24,13 @@ find dest/include -name '.*' -delete
 
 mkdir -p ${STRAP_ROOTFS}/usr/include
 
+msg "Into rootfs..."
+
 cp -rv dest/include/* ${STRAP_ROOTFS}/usr/include
+
+msg "Into sysroot..."
+
+cp -rv dest/include/* ${STRAP_TOOLS}/sysroot/usr/include
 
 msg "Cleaning up linux-headers..."
 

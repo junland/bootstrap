@@ -1,27 +1,46 @@
-cd $STRAP_SOURCES/gcc-9.3.0
-
-cp `dirname $($STRAP_TARGET-gcc -print-libgcc-file-name)`/include-fixed/limits.h $STRAP_ROOTFS/cross-tools/backup/limits.h
-
-msg "Fix problem with glibc-2.31"
-
-sed -e '1161 s|^|//|' \
-	-i libsanitizer/sanitizer_common/sanitizer_platform_limits_posix.cc
-
 cd $STRAP_SOURCES/gcc-build
+
+case "$STRAP_ARCH" in
+    x86_64)
+        GCC_OPTIONS="--with-arch=x86-64 --with-tune=generic"
+        export GCC_OPTIONS
+        ;;
+    aarch64)
+        GCC_OPTIONS="--with-abi=lp64 --with-arch=armv8-a --enable-fix-cortex-a53-835769 --enable-fix-cortex-a53-843419"
+        export GCC_OPTIONS
+        ;;
+    *)
+        msg "Architecture is not set or is not supported! (Selected: $STRAP_ARCH)"
+        exit 1
+        ;;
+esac
+
+msg "Configuring gcc-2..."
+
+unset CC CXX AR AS RANLIB LD STRIP OBJCOPY OBJDUMP
+
+../gcc-10.1.0/configure AR=ar LDFLAGS="-Wl,-rpath,$STRAP_TOOLS/lib " \
+    --prefix=$STRAP_TOOLS \
+    --build=$STRAP_HOST \
+    --host=$STRAP_HOST \
+    --target=$STRAP_TARGET \
+    --with-sysroot=$STRAP_TOOLS/sysroot \
+    --enable-languages=c,c++ \
+    --enable-shared \
+    --enable-threads \
+    --disable-werror \
+	--disable-multilib \
+    $GCC_OPTIONS 
 
 msg "Building gcc-2..."
 
-make -j${PNUM}
+make -j${PNUM} all
 
 msg "Installing gcc-2..."
 
 make -j${PNUM} install
 
 msg "Replace limits.h..."
-
-cd $STRAP_SOURCES/gcc-9.3.0
-cat gcc/limitx.h gcc/glimits.h gcc/limity.h > \
-	`dirname $($STRAP_TARGET-gcc -print-libgcc-file-name)`/include-fixed/limits.h
 
 msg "Cleaning up gcc..."
 
