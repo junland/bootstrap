@@ -80,4 +80,4 @@ make -j${PNUM} install
 
 msg "Cleaning up gcc-1 build..."
 
-rm -rf $STRAP_SOURCES/gcc-build 
+rm -rf $STRAP_SOURCES/gcc-build/* && mkdir -p $STRAP_SOURCES/gcc-build
