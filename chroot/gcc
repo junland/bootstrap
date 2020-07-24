@@ -27,11 +27,15 @@ tar xf $STRAP_SOURCES/mpc-1.1.0.tar.gz
 
 tar xf $STRAP_SOURCES/mpfr-4.0.2.tar.xz
 
+tar xf $STRAP_SOURCES/isl-0.22.1.tar.xz
+
 mv -v $STRAP_SOURCES/gmp-6.2.0 $STRAP_SOURCES/gcc-10.1.0/gmp
 
 mv -v $STRAP_SOURCES/mpc-1.1.0 $STRAP_SOURCES/gcc-10.1.0/mpc
 
 mv -v $STRAP_SOURCES/mpfr-4.0.2 $STRAP_SOURCES/gcc-10.1.0/mpfr
+
+mv -v $STRAP_SOURCES/isl-0.22.1 $STRAP_SOURCES/gcc-10.1.0/isl
 
 msg "Fixing where libs are built..."
 
@@ -40,6 +44,10 @@ cd $STRAP_SOURCES/gcc-10.1.0
 sed -i '/lp64=/s/lib64/lib/' gcc/config/aarch64/t-aarch64-linux
 
 sed -i '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
+
+msg "Patching gcc..."
+
+patch -Np1 -i "$STRAP_PATCHES"/gcc-enable-cet-in-cross.patch
 
 mkdir -p $STRAP_SOURCES/gcc-build 
 
