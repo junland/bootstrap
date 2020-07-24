@@ -28,4 +28,9 @@ chmod +x $CWD/bootstrap.env
 
 source $CWD/bootstrap.env
 
+source chroot/cross-tools.env
+
 msg "Running stages..."
+
+run_stage chroot/sources
+run_stage chroot/gcc

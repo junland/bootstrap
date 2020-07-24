@@ -30,6 +30,8 @@ jobs:
       run: ./setup $ACTION_TGT_ARCH
     - name: build toolchain
       run: ./strap-toolchain $ACTION_TGT_ARCH
+    - name: build chroot
+      run: ./strap-chroot $ACTION_TGT_ARCH
     ### Post steps ###
     - name: change ownership and archive stage 1 rootfs
       if: ${{ always() }}
