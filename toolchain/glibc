@@ -29,10 +29,10 @@ echo "rtlddir=/usr/lib" >> $STRAP_SOURCES/glibc-build/configparms
 
 ../glibc-2.31/configure \
     --prefix=/usr \
+    --build=$STRAP_HOST \
+    --host=$STRAP_TARGET \
     --libdir=/usr/lib \
     --libexecdir=/usr/lib \
-    --build=$HOST \
-    --host=$TARGET \
     --disable-profile \
     --disable-werror
 
