@@ -2,7 +2,7 @@ cd $STRAP_SOURCES/gcc-build
 
 case "$STRAP_ARCH" in
     x86_64)
-        GCC_OPTIONS="--with-arch=x86-64 --with-tune=generic"
+        GCC_OPTIONS="--with-arch=x86-64 --with-tune=generic --enable-cet=auto"
         export GCC_OPTIONS
         ;;
     aarch64)
