@@ -56,7 +56,7 @@ msg "Configuring gcc..."
     --with-glibc-version=4.19 \
     --disable-nls  \
     --disable-libsanitizer \
-    --disable-multilib 
+    --disable-multilib \
     $GCC_OPTIONS
 
 msg "Building gcc..."
