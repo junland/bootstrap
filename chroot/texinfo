@@ -1,0 +1,28 @@
+cd $STRAP_SOURCES
+
+msg "Extracting texinfo..."
+
+tar -xf ./texinfo-6.7.tar.gz
+
+cd $STRAP_SOURCES/texinfo-6.7
+
+msg "Configure texinfo..."
+
+./configure \
+ --prefix=/usr \
+ --build=$STRAP_HOST \
+ --host=$STRAP_TARGET \
+ --target=$STRAP_TARGET \
+ --disable-nls
+
+msg "Building texinfo..."
+
+make -j${PNUM}
+
+msg "Installing texinfo..."
+
+make -j${PNUM} DESTDIR=${STRAP_ROOTFS} install
+
+msg "Cleaning up texinfo..."
+
+rm -rf $STRAP_SOURCES/texinfo-*/

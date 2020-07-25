@@ -33,4 +33,14 @@ source chroot/cross-tools.env
 msg "Running stages..."
 
 run_stage chroot/sources
+run_stage chroot/binutils
 run_stage chroot/gcc
+run_stage chroot/file
+run_stage chroot/make
+run_stage chroot/patch
+run_stage chroot/texinfo
+run_stage chroot/busybox
+
+msg "Cleaning up..."
+
+rm -rf $STRAP_SOURCES

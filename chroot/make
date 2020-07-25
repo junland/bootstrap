@@ -1,0 +1,29 @@
+cd $STRAP_SOURCES
+
+msg "Extracting make..."
+
+tar -xf ./make-4.3.tar.gz
+
+cd $STRAP_SOURCES/make-4.3
+
+msg "Configure make..."
+
+./configure \
+ --prefix=/usr \
+ --build=$STRAP_HOST \
+ --host=$STRAP_TARGET \
+ --target=$STRAP_TARGET \
+ --disable-nls \
+ --without-guile
+
+msg "Building make..."
+
+make -j${PNUM}
+
+msg "Installing make..."
+
+make -j${PNUM} DESTDIR=${STRAP_ROOTFS} install
+
+msg "Cleaning up make..."
+
+rm -rf $STRAP_SOURCES/make-*/

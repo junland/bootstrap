@@ -1,0 +1,25 @@
+cd $STRAP_SOURCES
+
+msg "Extracting busybox..."
+
+tar -xf ./busybox-1.31.1.tar.bz2
+
+cd $STRAP_SOURCES/busybox-1.31.1
+
+msg "Configure busybox..."
+
+make -j1 mrproper
+
+cat "${CWD}/chroot/files/busybox-config_chroot" > .config
+
+msg "Building busybox..."
+
+make -j${PNUM} busybox V=1 ARCH="$STRAP_KARCH" CROSS_COMPILE="${STRAP_TARGET}-"
+
+msg "Installing busybox..."
+
+make CROSS_COMPILE="${STRAP_TARGET}-" ARCH="$STRAP_KARCH" CONFIG_PREFIX="${STRAP_ROOTFS}" install
+
+msg "Cleaning up busybox..."
+
+rm -rf $STRAP_SOURCES/busybox-*/

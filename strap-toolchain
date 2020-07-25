@@ -36,3 +36,7 @@ run_stage toolchain/linux-headers
 run_stage toolchain/gcc-1
 run_stage toolchain/glibc
 run_stage toolchain/gcc-2
+
+msg "Cleaning up..."
+
+rm -rf $STRAP_SOURCES
