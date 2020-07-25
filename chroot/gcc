@@ -73,4 +73,8 @@ make -j${PNUM}
 
 msg "Installing gcc.."
 
-make -j${PNUM} DESTDIR=${STRAP_ROOTFS} install 
+make -j${PNUM} DESTDIR=${STRAP_ROOTFS} install
+
+msg "Cleaning up gcc..."
+
+rm -rf $STRAP_SOURCES/gcc-*
