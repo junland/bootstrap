@@ -2,9 +2,9 @@ cd $STRAP_SOURCES
 
 msg "Extracting busybox..."
 
-tar -xf ./busybox-1.31.1.tar.bz2
+tar -xf ./busybox-1.32.0.tar.bz2
 
-cd $STRAP_SOURCES/busybox-1.31.1
+cd $STRAP_SOURCES/busybox-1.32.0
 
 msg "Configure busybox..."
 
