@@ -8,7 +8,7 @@ cd $STRAP_SOURCES/file-5.38
 
 msg "Configure file-cross..."
 
-./configure --prefix="$STRAP_TOOLS" --disable-fsect-man5
+./configure --prefix="$STRAP_TOOLS" --host=$STRAP_HOST --disable-fsect-man5
 
 msg "Building file-cross..."
 
