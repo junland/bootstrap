@@ -12,19 +12,21 @@ cat "${CWD}/chroot/files/config.sub" > config.sub
 
 msg "Configure file..."
 
-CC=gcc AR="ar" AS="as" LD="ld" RANLIB="ranlib" READELF="readelf" STRIP="strip" \
-./configure --prefix="$STRAP_TOOLS" --disable-fsect-man5
+./configure \
+ --prefix=/usr \
+ --build=$STRAP_HOST \
+ --host=$STRAP_TARGET \
+ --target=$STRAP_TARGET \
+ --disable-fsect-man5
 
 msg "Building file..."
 
-CC=gcc AR="ar" AS="as" LD="ld" RANLIB="ranlib" READELF="readelf" STRIP="strip" \
-make -j${PNUM}
+make -j${PNUM} V=1
 
 msg "Installing file..."
 
-CC=gcc AR="ar" AS="as" LD="ld" RANLIB="ranlib" READELF="readelf" STRIP="strip" \
-make -j${PNUM} install
+make -j${PNUM} DESTDIR=${STRAP_ROOTFS} install
 
-msg "Cleaning file..."
+msg "Cleaning up file..."
 
-make -j${PNUM} clean
+rm -rf $STRAP_SOURCES/file-*/
