@@ -10,7 +10,6 @@ export STRIP="$STRAP_TARGET-strip"
 export OBJCOPY="$STRAP_TARGET-objcopy"
 export OBJDUMP="$STRAP_TARGET-objdump"
 
-
 msg "Extract glibc..."
 
 tar -xf glibc-2.31.tar.xz

@@ -12,6 +12,26 @@ cat "${CWD}/chroot/files/config.sub" > config.sub
 
 msg "Configure file..."
 
+source $CWD/chroot/native-tools.env
+
+./configure --prefix="$STRAP_TOOLS" --disable-fsect-man5
+
+msg "Building file..."
+
+make -j${PNUM}
+
+msg "Installing file..."
+
+make -j${PNUM} install
+
+msg "Cleaning file..."
+
+make -j${PNUM} clean
+
+msg "Configure file..."
+
+source $CWD/chroot/cross-tools.env
+
 ./configure \
  --prefix=/usr \
  --build=$STRAP_HOST \
