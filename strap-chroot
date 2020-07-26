@@ -36,6 +36,10 @@ run_stage chroot/sources
 run_stage chroot/binutils
 run_stage chroot/gcc
 run_stage chroot/file
+
+source chroot/cross-tools.env
+
+run_stage chroot/file-final
 run_stage chroot/make
 run_stage chroot/patch
 run_stage chroot/texinfo

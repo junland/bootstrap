@@ -10,39 +10,21 @@ cat "${CWD}/chroot/files/config.guess" > config.guess
 
 cat "${CWD}/chroot/files/config.sub" > config.sub
 
-msg "Configure file-cross..."
-
-./configure --prefix="$STRAP_TOOLS" --disable-fsect-man5
-
-msg "Building file-cross..."
-
-make -j${PNUM}
-
-msg "Installing file-cross..."
-
-make -j${PNUM} install
-
-msg "Cleaning file-cross..."
-
-make -j${PNUM} clean
-
 msg "Configure file..."
 
-./configure \
- --prefix=/usr \
- --build=$STRAP_HOST \
- --host=$STRAP_TARGET \
- --target=$STRAP_TARGET \
- --disable-fsect-man5
+CC=gcc AR="ar" AS="as" LD="ld" RANLIB="ranlib" READELF="readelf" STRIP="strip" \
+./configure --prefix="$STRAP_TOOLS" --disable-fsect-man5
 
 msg "Building file..."
 
-make -j${PNUM} V=1
+CC=gcc AR="ar" AS="as" LD="ld" RANLIB="ranlib" READELF="readelf" STRIP="strip" \
+make -j${PNUM}
 
 msg "Installing file..."
 
-make -j${PNUM} DESTDIR=${STRAP_ROOTFS} install
+CC=gcc AR="ar" AS="as" LD="ld" RANLIB="ranlib" READELF="readelf" STRIP="strip" \
+make -j${PNUM} install
 
-msg "Cleaning up file..."
+msg "Cleaning file..."
 
-rm -rf $STRAP_SOURCES/file-*/
+make -j${PNUM} clean
