@@ -6,9 +6,13 @@ tar -xf ./file-5.38.tar.gz
 
 cd $STRAP_SOURCES/file-5.38
 
+cat "${CWD}/chroot/files/config.guess" > config.guess
+
+cat "${CWD}/chroot/files/config.sub" > config.sub
+
 msg "Configure file-cross..."
 
-./configure --prefix="$STRAP_TOOLS" --host=$STRAP_HOST --disable-fsect-man5
+./configure --prefix="$STRAP_TOOLS" --disable-fsect-man5
 
 msg "Building file-cross..."
 
