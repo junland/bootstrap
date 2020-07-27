@@ -77,3 +77,5 @@ mkdir -vp "$STRAP_TOOLS/sysroot/lib"
 mkdir -vp "$STRAP_TOOLS/sysroot/usr/lib"
 
 mkdir -vp "$STRAP_TOOLS/sysroot/usr/include"
+
+msg "Setup has completed."

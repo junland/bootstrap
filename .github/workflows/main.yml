@@ -26,8 +26,8 @@ jobs:
     - name: move bashrc file outside of current user
       run: sudo mv -fv /etc/bash.bashrc /etc/bash.bashrc.NOUSE | true
     ### Actually run bootstrap process ###
-    - name: setup
-      run: ./setup $ACTION_TGT_ARCH
+    - name: setup bootstrap
+      run: ./strap-setup $ACTION_TGT_ARCH
     - name: build toolchain
       run: ./strap-toolchain $ACTION_TGT_ARCH
     - name: build chroot
