@@ -1,10 +1,10 @@
-name: Multi-Arch Bootstraper 3
+name: Multi-Arch Bootstraper
 
 on:
   push:
-    branches: [ alt-bootstrap-2 ]
+    branches: [ master ]
   pull_request:
-    branches: [ alt-bootstrap-2 ]
+    branches: [ master ]
 
 jobs:  
   build:
@@ -35,9 +35,9 @@ jobs:
     ### Post steps ###
     - name: change ownership and archive stage 1 rootfs
       if: ${{ always() }}
-      run: cp -r ${GITHUB_WORKSPACE}/logs ${GITHUB_WORKSPACE}/rootfs && sudo chown root:root -R ${GITHUB_WORKSPACE}/rootfs && sudo tar -cJf ${GITHUB_WORKSPACE}/rootfs-$ACTION_TGT_ARCH.tar.xz -C ${GITHUB_WORKSPACE}/rootfs .
+      run: cp -r ${GITHUB_WORKSPACE}/logs ${GITHUB_WORKSPACE}/rootfs && sudo chown root:root -R ${GITHUB_WORKSPACE}/rootfs && sudo tar -cJf ${GITHUB_WORKSPACE}/stage-1-rootfs-$ACTION_TGT_ARCH.tar.xz -C ${GITHUB_WORKSPACE}/rootfs .
     - uses: actions/upload-artifact@v2
       if: ${{ always() }}
       with:
-        name: rootfs-${{matrix.target-arch}}-${{github.run_id}} 
-        path: ${{github.workspace}}/rootfs-${{matrix.target-arch}}.tar.xz
+        name: stage-1-rootfs-${{matrix.target-arch}}-${{github.run_id}} 
+        path: ${{github.workspace}}/stage-1-rootfs-${{matrix.target-arch}}.tar.xz
