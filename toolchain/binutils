@@ -1,0 +1,35 @@
+cd $STRAP_SOURCES
+
+msg "Extracting binutils..."
+
+tar -xf ./binutils-2.34.tar.xz
+
+mkdir -p $STRAP_SOURCES/binutils-build 
+
+cd $STRAP_SOURCES/binutils-build
+
+msg "Configure binutils..."
+
+../binutils-2.34/configure \
+	--prefix=$STRAP_TOOLS \
+    --build=$STRAP_HOST \
+    --host=$STRAP_HOST \
+    --target=$STRAP_TARGET \
+    --with-sysroot=$STRAP_TOOLS/sysroot \
+    --disable-multilib
+
+msg "Configure host..."
+
+make configure-host
+
+msg "Building binutils..."
+
+make -j${PNUM} all
+
+msg "Installing binutils..."
+
+make -j${PNUM} install
+
+msg "Cleaning up binutils..."
+
+rm -rf $STRAP_SOURCES/binutils-*/

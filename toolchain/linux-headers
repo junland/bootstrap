@@ -1,0 +1,37 @@
+cd $STRAP_SOURCES
+
+msg "Extracting linux-headers..."
+
+tar -xf ./linux-5.7.tar.xz
+
+cd linux-5.7
+
+msg "Checking linux-headers..."
+
+make mrproper
+
+msg "Checking linux-headers..."
+
+make -j${PNUM} ARCH=${STRAP_KARCH} headers_check
+
+msg "Building linux-headers..."
+
+make -j${PNUM} ARCH=${STRAP_KARCH} INSTALL_HDR_PATH=dest headers_install
+
+msg "Installing linux-headers..."
+
+find dest/include -name '.*' -delete
+
+mkdir -p ${STRAP_ROOTFS}/usr/include
+
+msg "Into rootfs..."
+
+cp -rv dest/include/* ${STRAP_ROOTFS}/usr/include
+
+msg "Into sysroot..."
+
+cp -rv dest/include/* ${STRAP_TOOLS}/sysroot/usr/include
+
+msg "Cleaning up linux-headers..."
+
+rm -rf $STRAP_SOURCES/linux-*/

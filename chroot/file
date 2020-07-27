@@ -1,0 +1,52 @@
+cd $STRAP_SOURCES
+
+msg "Extracting file..."
+
+tar -xf ./file-5.38.tar.gz
+
+cd $STRAP_SOURCES/file-5.38
+
+cat "${CWD}/chroot/files/config.guess" > config.guess
+
+cat "${CWD}/chroot/files/config.sub" > config.sub
+
+msg "Configure file..."
+
+source $CWD/chroot/native-tools.env
+
+./configure --prefix="$STRAP_TOOLS" --disable-fsect-man5
+
+msg "Building file..."
+
+make -j${PNUM}
+
+msg "Installing file..."
+
+make -j${PNUM} install
+
+msg "Cleaning file..."
+
+make -j${PNUM} clean
+
+msg "Configure file..."
+
+source $CWD/chroot/cross-tools.env
+
+./configure \
+ --prefix=/usr \
+ --build=$STRAP_HOST \
+ --host=$STRAP_TARGET \
+ --target=$STRAP_TARGET \
+ --disable-fsect-man5
+
+msg "Building file..."
+
+make -j${PNUM} V=1
+
+msg "Installing file..."
+
+make -j${PNUM} DESTDIR=${STRAP_ROOTFS} install
+
+msg "Cleaning up file..."
+
+rm -rf $STRAP_SOURCES/file-*/

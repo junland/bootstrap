@@ -1,0 +1,45 @@
+cd $STRAP_SOURCES/gcc-build
+
+case "$STRAP_ARCH" in
+    x86_64)
+        GCC_OPTIONS="--with-arch=x86-64 --with-tune=generic --enable-cet=auto"
+        export GCC_OPTIONS
+        ;;
+    aarch64)
+        GCC_OPTIONS="--with-abi=lp64 --with-arch=armv8-a --enable-fix-cortex-a53-835769 --enable-fix-cortex-a53-843419"
+        export GCC_OPTIONS
+        ;;
+    *)
+        msg "Architecture is not set or is not supported! (Selected: $STRAP_ARCH)"
+        exit 1
+        ;;
+esac
+
+msg "Configuring gcc-2..."
+
+unset CC CXX AR AS RANLIB LD STRIP OBJCOPY OBJDUMP
+
+../gcc-10.1.0/configure AR=ar LDFLAGS="-Wl,-rpath,$STRAP_TOOLS/lib " \
+    --prefix=$STRAP_TOOLS \
+    --build=$STRAP_HOST \
+    --host=$STRAP_HOST \
+    --target=$STRAP_TARGET \
+    --with-sysroot=$STRAP_TOOLS/sysroot \
+    --enable-languages=c,c++ \
+    --enable-shared \
+    --enable-threads \
+    --disable-werror \
+	--disable-multilib \
+    $GCC_OPTIONS 
+
+msg "Building gcc-2..."
+
+make -j${PNUM} all
+
+msg "Installing gcc-2..."
+
+make -j${PNUM} install
+
+msg "Cleaning up gcc..."
+
+rm -rf $STRAP_SOURCES/gcc-*/

@@ -1,4 +1,4 @@
-name: Multi-Arch Builder
+name: Multi-Arch Bootstraper
 
 on:
   push:
@@ -17,41 +17,27 @@ jobs:
       ACTION_TGT_ARCH: ${{matrix.target-arch}}
       DEBIAN_FRONTEND: noninteractive
     steps:
+    ### Setup OS enviroment ###
     - uses: actions/checkout@v2
     - name: install / update deps if not installed
       run: sudo apt update -y && sudo apt install rsync build-essential expect pkg-config libarchive-tools m4 gawk bc bison flex texinfo python3 perl libtool autoconf automake autopoint autoconf-archive mtools liblzma-dev libelf-dev libssl-dev zlib1g-dev zlib1g xz-utils lzip file curl wget gettext -y && sudo apt autoremove -y
     - name: use bash instead of dash
       run: sudo dpkg-reconfigure dash
-    - name: change shell scripts permissions
-      run: chmod +x -R ./*.sh
     - name: move bashrc file outside of current user
       run: sudo mv -fv /etc/bash.bashrc /etc/bash.bashrc.NOUSE | true
-    - name: add tools symlink.
-      run: sudo ln -sv ${GITHUB_WORKSPACE}/rootfs/tools /
+    ### Actually run bootstrap process ###
     - name: setup
-      run: ./setup.sh
+      run: ./setup $ACTION_TGT_ARCH
     - name: build toolchain
-      run: ./build-toolchain.sh $ACTION_TGT_ARCH
+      run: ./strap-toolchain $ACTION_TGT_ARCH
     - name: build chroot
-      run: ./build-chroot.sh $ACTION_TGT_ARCH
+      run: ./strap-chroot $ACTION_TGT_ARCH
+    ### Post steps ###
     - name: change ownership and archive stage 1 rootfs
       if: ${{ always() }}
-      run: sudo chown root:root -v -R ${GITHUB_WORKSPACE}/rootfs ${GITHUB_WORKSPACE}/toolchain && sudo tar -cJf ${GITHUB_WORKSPACE}/stage1-rootfs-$ACTION_TGT_ARCH.tar.xz -C ${GITHUB_WORKSPACE}/rootfs . && sudo tar -cJf ${GITHUB_WORKSPACE}/toolchain-$ACTION_TGT_ARCH.tar.xz -C ${GITHUB_WORKSPACE}/toolchain .
-    - name: archive debug
-      if: ${{ always() }}
-      run: sudo tar -cJf ${GITHUB_WORKSPACE}/debug-$ACTION_TGT_ARCH.tar.xz -C ${GITHUB_WORKSPACE}/gcc-10.1.0 .
+      run: cp -r ${GITHUB_WORKSPACE}/logs ${GITHUB_WORKSPACE}/rootfs && sudo chown root:root -R ${GITHUB_WORKSPACE}/rootfs && sudo tar -cJf ${GITHUB_WORKSPACE}/stage-1-rootfs-$ACTION_TGT_ARCH.tar.xz -C ${GITHUB_WORKSPACE}/rootfs .
     - uses: actions/upload-artifact@v2
       if: ${{ always() }}
       with:
-        name: stage1-rootfs-${{matrix.target-arch}}-${{github.run_id}} 
-        path: ${{github.workspace}}/stage1-rootfs-${{matrix.target-arch}}.tar.xz
-    - uses: actions/upload-artifact@v2
-      if: ${{ always() }}
-      with:
-        name: toolchain-${{matrix.target-arch}}-${{github.run_id}} 
-        path: ${{github.workspace}}/debug-${{matrix.target-arch}}.tar.xz
-    - uses: actions/upload-artifact@v2
-      if: ${{ always() }}
-      with:
-        name: debug-${{matrix.target-arch}}-${{github.run_id}} 
-        path: ${{github.workspace}}/debug-${{matrix.target-arch}}.tar.xz
+        name: stage-1-rootfs-${{matrix.target-arch}}-${{github.run_id}} 
+        path: ${{github.workspace}}/stage-1-rootfs-${{matrix.target-arch}}.tar.xz

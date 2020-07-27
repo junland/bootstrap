@@ -1,0 +1,46 @@
+#!/bin/bash -e
+
+source lib/functions.sh
+
+CWD=$(pwd)
+umask 022
+
+if [ "$1" == "" ]; then
+  msg "Please specify a architecture to build."
+  exit 1
+fi
+
+if ! test -f targets/$1.tgt; then
+  msg "$1 target does not exist."
+  exit 1
+fi
+
+if ! test -f $CWD/bootstrap.env; then
+  msg "Bootstrap enviroment file does not exist"
+  exit 1
+fi
+
+set --
+
+msg "Setting up enviroment..."
+
+chmod +x $CWD/bootstrap.env
+
+source $CWD/bootstrap.env
+
+source $CWD/chroot/cross-tools.env
+
+msg "Running stages..."
+
+run_stage chroot/sources
+run_stage chroot/binutils
+run_stage chroot/gcc
+run_stage chroot/file
+run_stage chroot/make
+run_stage chroot/patch
+run_stage chroot/texinfo
+run_stage chroot/busybox
+
+msg "Cleaning up..."
+
+rm -rf $STRAP_SOURCES

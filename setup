@@ -1,0 +1,79 @@
+#!/bin/bash -e
+
+source lib/functions.sh
+
+CWD=$(pwd)
+umask 022
+
+if [ "$1" == "" ]; then
+  msg "Please specify a architecture to build."
+  exit 1
+fi
+
+if ! test -f targets/$1.tgt; then
+  msg "$1 target file does not exist."
+  exit 1
+fi
+
+chmod +x targets/$1.tgt
+source targets/$1.tgt
+
+set --
+
+cat > $CWD/bootstrap.env << EOF
+## BOOTSTRAP ENV FILE ##
+umask 022
+
+STRAP_CWD=$CWD
+STRAP_ROOTFS=$STRAP_ROOTFS
+STRAP_TOOLS=$STRAP_TOOLS
+STRAP_SOURCES=$STRAP_ROOTFS/sources
+STRAP_PATCHES=$CWD/patches
+STRAP_KARCH=$STRAP_KARCH
+STRAP_HOST=$(echo ${MACHTYPE} | sed "s/-[^-]*/-cross/")
+STRAP_TARGET=$STRAP_TARGET
+STRAP_ARCH=$STRAP_ARCH
+PNUM=$PNUM
+export STRAP_CWD STRAP_ROOTFS STRAP_TOOLS STRAP_SOURCES STRAP_KARCH STRAP_HOST STRAP_TARGET STRAP_ARCH PNUM
+
+LC_ALL=POSIX
+PS1='\u:\w\$ '
+TERM=$TERM
+PATH=${STRAP_TOOLS}/bin:/bin:/usr/bin:/sbin:/usr/sbin
+export PATH LC_ALL PS1 TERM
+## END OF ENV ##
+EOF
+
+msg "Below is the bootstrap enviroment file..."
+
+cat $CWD/bootstrap.env
+
+msg "End of bootstrap enviroment file..."
+
+chmod +x $CWD/bootstrap.env
+
+source $CWD/bootstrap.env
+
+msg "Creating log directory..."
+
+mkdir -vp $CWD/logs
+
+msg "Creating rootfs directory..."
+
+mkdir -vp "$STRAP_ROOTFS"
+
+mkdir -vp "$STRAP_SOURCES"
+
+msg "Creating toolchain directory..."
+
+mkdir -vp "$STRAP_TOOLS"
+
+msg "Creating toolchain sysroot directory..."
+
+mkdir -vp "$STRAP_TOOLS/sysroot"
+
+mkdir -vp "$STRAP_TOOLS/sysroot/lib"
+
+mkdir -vp "$STRAP_TOOLS/sysroot/usr/lib"
+
+mkdir -vp "$STRAP_TOOLS/sysroot/usr/include"

@@ -1,0 +1,87 @@
+cd $STRAP_SOURCES
+
+case "$STRAP_ARCH" in
+    x86_64)
+        GCC_OPTIONS="--with-arch=x86-64 --with-tune=generic --enable-cet=auto"
+        export GCC_OPTIONS
+        ;;
+    aarch64)
+        GCC_OPTIONS="--with-abi=lp64 --with-arch=armv8-a --enable-fix-cortex-a53-835769 --enable-fix-cortex-a53-843419"
+        export GCC_OPTIONS
+        ;;
+    *)
+        msg "Architecture is not set or is not supported! (Selected: $STRAP_ARCH)"
+        exit 1
+        ;;
+esac
+
+msg "Extracting gcc-1..."
+
+tar -xf gcc-10.1.0.tar.xz
+
+msg "Extract gcc deps..."
+
+tar xf $STRAP_SOURCES/gmp-6.2.0.tar.xz
+
+tar xf $STRAP_SOURCES/mpc-1.1.0.tar.gz
+
+tar xf $STRAP_SOURCES/mpfr-4.0.2.tar.xz
+
+mv -v $STRAP_SOURCES/gmp-6.2.0 $STRAP_SOURCES/gcc-10.1.0/gmp
+
+mv -v $STRAP_SOURCES/mpc-1.1.0 $STRAP_SOURCES/gcc-10.1.0/mpc
+
+mv -v $STRAP_SOURCES/mpfr-4.0.2 $STRAP_SOURCES/gcc-10.1.0/mpfr
+
+msg "Fixing where libs are built..."
+
+cd $STRAP_SOURCES/gcc-10.1.0
+
+sed -i '/lp64=/s/lib64/lib/' gcc/config/aarch64/t-aarch64-linux
+
+sed -i '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
+
+msg "Patching gcc..."
+
+patch -Np1 -i "$STRAP_PATCHES"/gcc-enable-cet-in-cross.patch
+
+mkdir -p $STRAP_SOURCES/gcc-build 
+
+cd $STRAP_SOURCES/gcc-build
+
+msg "Configuring gcc-1..."
+
+unset CC CXX AR AS RANLIB LD STRIP OBJCOPY OBJDUMP
+
+../gcc-10.1.0/configure \
+    --prefix=$STRAP_TOOLS \
+    --build=$STRAP_HOST \
+    --host=$STRAP_HOST \
+    --target=$STRAP_TARGET \
+    --with-sysroot=$STRAP_TOOLS/sysroot \
+    --enable-languages=c \
+    --with-glibc-version=4.19 \
+    --with-newlib \
+    --without-headers \
+    --disable-shared \
+    --disable-threads \
+    --disable-libssp \
+    --disable-libatomic \
+    --disable-libgomp \
+    --disable-libmpx \
+    --disable-libquadmath \
+    --disable-werror \
+    --disable-multilib \
+    $GCC_OPTIONS
+
+msg "Building gcc-1..."
+
+make -j${PNUM}
+
+msg "Installing gcc-1..."
+
+make -j${PNUM} install
+
+msg "Cleaning up gcc-1 build..."
+
+rm -rf $STRAP_SOURCES/gcc-build/* && mkdir -p $STRAP_SOURCES/gcc-build

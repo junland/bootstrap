@@ -1,0 +1,9 @@
+msg "Getting sources..."
+
+rm -rf $STRAP_SOURCES
+
+mkdir -vp $STRAP_SOURCES
+
+chmod -v a+xwt $STRAP_SOURCES
+
+wget -q -c -i $STRAP_CWD/chroot/sources.list -P $STRAP_SOURCES
