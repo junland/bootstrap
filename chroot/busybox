@@ -18,7 +18,7 @@ make -j${PNUM} busybox V=1 ARCH="$STRAP_KARCH" CROSS_COMPILE="${STRAP_TARGET}-"
 
 msg "Installing busybox..."
 
-make CROSS_COMPILE="${STRAP_TARGET}-" ARCH="$STRAP_KARCH" CONFIG_PREFIX="${STRAP_ROOTFS}" install
+make CROSS_COMPILE="${STRAP_TARGET}-" ARCH="$STRAP_KARCH" CONFIG_PREFIX="${STRAP_ROOTFS}/tools" install
 
 msg "Cleaning up busybox..."
 

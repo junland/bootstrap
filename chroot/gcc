@@ -49,6 +49,33 @@ msg "Patching gcc..."
 
 patch -Np1 -i "$STRAP_PATCHES"/gcc-enable-cet-in-cross.patch
 
+msg "Hard coding path to /tools..."
+
+for file in \
+ gcc/config/linux.h gcc/config/i386/linux.h gcc/config/i386/linux64.h \
+ gcc/config/arm/linux-eabi.h gcc/config/arm/linux-elf.h \
+ gcc/config/mips/linux.h \
+ gcc/config/rs6000/linux64.h gcc/config/rs6000/sysv4.h \
+ gcc/config/aarch64/aarch64-linux.h \
+ gcc/config/microblaze/linux.h \
+ gcc/config/sh/linux.h \
+ gcc/config/riscv/linux.h ; \
+do
+    if test ! -f "$file"
+    then
+        echo "WARNING: ${0}: Non-existent file: $file" 1>&2
+        continue;
+    fi
+    sed -i \
+     -e 's@/lib\(64\)\{0,1\}\(32\)\{0,1\}/ld@/tools&@g' \
+     -e 's@/usr@/tools@g' "$file"
+    echo '
+#undef STANDARD_STARTFILE_PREFIX_1
+#undef STANDARD_STARTFILE_PREFIX_2
+#define STANDARD_STARTFILE_PREFIX_1 "/tools/lib/"
+#define STANDARD_STARTFILE_PREFIX_2 ""' >> "$file"
+done
+
 mkdir -p $STRAP_SOURCES/gcc-build 
 
 cd $STRAP_SOURCES/gcc-build
@@ -73,7 +100,7 @@ make -j${PNUM}
 
 msg "Installing gcc.."
 
-make -j${PNUM} DESTDIR=${STRAP_ROOTFS} install
+make -j${PNUM} DESTDIR=${STRAP_ROOTFS}/tools install
 
 msg "Cleaning up gcc..."
 

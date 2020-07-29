@@ -30,6 +30,8 @@ source $CWD/bootstrap.env
 
 source $CWD/chroot/cross-tools.env
 
+mkdir -vp -- "${STRAP_ROOTFS}/lib" "${STRAP_ROOTFS}/tools/lib" "${STRAP_ROOTFS}/usr/lib"
+
 msg "Running stages..."
 
 run_stage chroot/sources

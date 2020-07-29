@@ -22,7 +22,7 @@ make -j${PNUM}
 
 msg "Installing make..."
 
-make -j${PNUM} DESTDIR=${STRAP_ROOTFS} install
+make -j${PNUM} DESTDIR=${STRAP_ROOTFS}/tools install
 
 msg "Cleaning up make..."
 
