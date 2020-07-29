@@ -22,6 +22,8 @@ msg "Installing linux-headers..."
 
 find dest/include -name '.*' -delete
 
+rm usr/include/Makefile
+
 mkdir -p ${STRAP_ROOTFS}/usr/include
 
 msg "Into rootfs..."
