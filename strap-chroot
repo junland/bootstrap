@@ -30,7 +30,13 @@ source $CWD/bootstrap.env
 
 source $CWD/chroot/cross-tools.env
 
-mkdir -vp -- "${STRAP_ROOTFS}/lib" "${STRAP_ROOTFS}/tools/lib" "${STRAP_ROOTFS}/usr/lib"
+msg "Setting up rootfs..."
+
+mkdir -vp -- "${STRAP_ROOTFS}/usr/lib"
+
+ln -sv /tools/usr/lib "${STRAP_ROOTFS}/tools/lib" 
+
+ln -sv /usr/lib "${STRAP_ROOTFS}/lib" 
 
 msg "Running stages..."
 
@@ -42,6 +48,7 @@ run_stage chroot/make
 run_stage chroot/patch
 run_stage chroot/texinfo
 run_stage chroot/busybox
+run_stage chroot/symlinks
 
 msg "Cleaning up..."
 

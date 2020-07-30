@@ -1,0 +1,30 @@
+# Binaries
+for file in awk bash cat dd echo env file grep ln ls pwd rm sed sh stty
+do
+    ln -sf "/tools/bin/${file}" "${STRAP_ROOTFS}/bin"
+done
+
+ln -sf gcc                 /tools/bin/cc
+ln -sf /tools/bin/install  "${STRAP_ROOTFS}/usr/bin"
+ln -sf /proc/self/mounts   "${STRAP_ROOTFS}/etc/mtab"
+
+# libraries
+ln -sf /tools/usr/lib/libgcc_s.so         "${STRAP_ROOTFS}/usr/lib"
+ln -sf /tools/usr/lib/libgcc_s.so.1       "${STRAP_ROOTFS}/usr/lib"
+
+ln -sf /tools/usr/lib/libstdc++.so        "${STRAP_ROOTFS}/usr/lib"
+ln -sf /tools/usr/lib/libstdc++.so.6      "${STRAP_ROOTFS}/usr/lib"
+ln -sf /tools/usr/lib/libstdc++.a         "${STRAP_ROOTFS}/usr/lib"
+
+ln -sf /tools/usr/lib/libssp.so           "${STRAP_ROOTFS}/usr/lib"
+ln -sf /tools/usr/lib/libssp.so.0         "${STRAP_ROOTFS}/usr/lib"
+ln -sf /tools/usr/lib/libssp.so.0.0.0     "${STRAP_ROOTFS}/usr/lib"
+ln -sf /tools/usr/lib/libssp.a            "${STRAP_ROOTFS}/usr/lib"
+ln -sf /tools/usr/lib/libssp_nonshared.a  "${STRAP_ROOTFS}/usr/lib"
+
+# strip temporary prefix
+for file in libstdc++.la libssp.la libssp_nonshared.la
+do
+    sed -e 's/tools/usr/' /tools/usr/lib/$file > "${STRAP_ROOTFS}/usr/lib/$file"
+done
+unset file
