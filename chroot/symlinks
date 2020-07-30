@@ -4,7 +4,7 @@ do
     ln -sf "/tools/bin/${file}" "${STRAP_ROOTFS}/bin"
 done
 
-ln -sf gcc                 /tools/bin/cc
+ln -sf gcc                 "{STRAP_ROOTFS}/tools/bin/cc"
 ln -sf /tools/bin/install  "${STRAP_ROOTFS}/usr/bin"
 ln -sf /proc/self/mounts   "${STRAP_ROOTFS}/etc/mtab"
 
