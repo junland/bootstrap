@@ -1,5 +1,7 @@
 rootfs.*
 rootfs/
+cross-toolchain/
 progress/
+sources/
 logs/
 *.env
