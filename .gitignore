@@ -1,5 +1,5 @@
-bootstrap.
 rootfs.*
 rootfs/
 progress/
 logs/
+*.env
