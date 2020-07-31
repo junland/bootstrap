@@ -25,13 +25,13 @@ tar xf $STRAP_SOURCES/gmp-6.2.0.tar.xz
 
 tar xf $STRAP_SOURCES/mpc-1.1.0.tar.gz
 
-tar xf $STRAP_SOURCES/mpfr-4.0.2.tar.xz
+tar xf $STRAP_SOURCES/mpfr-4.1.0.tar.xz
 
 mv -v $STRAP_SOURCES/gmp-6.2.0 $STRAP_SOURCES/gcc-10.1.0/gmp
 
 mv -v $STRAP_SOURCES/mpc-1.1.0 $STRAP_SOURCES/gcc-10.1.0/mpc
 
-mv -v $STRAP_SOURCES/mpfr-4.0.2 $STRAP_SOURCES/gcc-10.1.0/mpfr
+mv -v $STRAP_SOURCES/mpfr-4.1.0 $STRAP_SOURCES/gcc-10.1.0/mpfr
 
 msg "Fixing where libs are built..."
 
