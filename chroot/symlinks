@@ -27,6 +27,6 @@ ln -sf /tools/usr/lib/libssp_nonshared.a  "${STRAP_ROOTFS}/usr/lib"
 # strip temporary prefix
 for file in libstdc++.la libssp.la libssp_nonshared.la
 do
-    sed -e 's/tools/usr/' /tools/usr/lib/$file > "${STRAP_ROOTFS}/usr/lib/$file"
+    sed -e 's/tools/usr/' ${STRAP_ROOTFS}/tools/usr/lib/$file > "${STRAP_ROOTFS}/usr/lib/$file"
 done
 unset file
