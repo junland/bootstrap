@@ -4,6 +4,8 @@ do
     ln -sf "/tools/bin/${file}" "${STRAP_ROOTFS}/bin"
 done
 
+mkdir -p ${STRAP_ROOTFS}/etc ${STRAP_ROOTFS}/usr ${STRAP_ROOTFS}/var
+
 ln -sf gcc                 "${STRAP_ROOTFS}/tools/bin/cc"
 ln -sf /tools/bin/install  "${STRAP_ROOTFS}/usr/bin"
 ln -sf /proc/self/mounts   "${STRAP_ROOTFS}/etc/mtab"
