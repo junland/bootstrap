@@ -1,7 +1,7 @@
 # Binaries
 for file in awk bash cat dd echo env file grep ln ls pwd rm sed sh stty
 do
-    ln -sf "/tools/bin/${file}" "${STRAP_ROOTFS}/bin"
+    ln -sf "/tools/bin/${file}" "${STRAP_ROOTFS}/usr/bin"
 done
 
 mkdir -p ${STRAP_ROOTFS}/etc ${STRAP_ROOTFS}/usr ${STRAP_ROOTFS}/var

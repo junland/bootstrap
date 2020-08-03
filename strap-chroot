@@ -38,6 +38,10 @@ ln -sv /tools/usr/lib "${STRAP_ROOTFS}/tools/lib"
 
 ln -sv /usr/lib "${STRAP_ROOTFS}/lib" 
 
+ln -sv /usr/bin "${STRAP_ROOTFS}/bin"
+
+ln -sv /usr/sbin "${STRAP_ROOTFS}/sbin"
+
 msg "Running stages..."
 
 run_stage chroot/sources

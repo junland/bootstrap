@@ -41,7 +41,61 @@ run_stage() {
     touch $STRAP_CWD/logs/$stage_name.done
 }
 
+mount_chroot() {
+  msg "Creating file system directories..."
+  
+  mkdir -pv "$STRAP_ROOTFS"/{dev,proc,sys,run}
+
+  msg "Mounting chroot..."
+  
+  mount -v --bind /dev "$STRAP_ROOTFS"/dev
+  mount -vt devpts devpts "$STRAP_ROOTFS"/dev/pts -o gid=5,mode=620
+  mount -vt proc proc "$STRAP_ROOTFS"/proc
+  mount -vt sysfs sysfs "$STRAP_ROOTFS"/sys
+  mount -vt tmpfs tmpfs "$STRAP_ROOTFS"/run
+
+  msg "Done mounting chroot."
+}
+
+umount_chroot() {
+  msg "Unmounting chroot..."
+
+  umount -v "$STRAP_ROOTFS"/dev/pts
+  umount -v "$STRAP_ROOTFS"/dev
+  umount -v "$STRAP_ROOTFS"/run
+  umount -v "$STRAP_ROOTFS"/proc
+  umount -v "$STRAP_ROOTFS"/sys
+
+  msg "Done unmounting chroot."
+}
+
+proot_run_cmd_tools() {
+  for shell in "sh" "ash" "bash"; do
+    if [ -f "$ROOTFS_DIR"/bin/$shell ] || [ -L "$ROOTFS_DIR"/bin/$shell ]; then
+      msg "Selected $shell as rootfs shell..."
+      export ROOTFS_SHELL=/bin/$shell
+      break
+    fi
+  done
+
+  ROOTFS_DIR_ARCH=$(echo "$1" | cut -d "-" -f1)
+
+  if [ ! -f "/usr/bin/qemu-$(echo "$1" | cut -d "-" -f1)-static" ]; then
+    msg "qemu static binary for $1 does not exist."
+    exit 1
+  fi
+
+  mount_chroot
+
+  proot --cwd=/ -r "$STRAP_ROOTFS" -q qemu-"$ROOTFS_DIR_ARCH"-static /usr/bin/env -i HOME=/ TERM="$TERM" LC_ALL=POSIX PS1='(chroot)$ ' PATH=/tools/bin:/tools/sbin:/bin:/usr/bin:/sbin:/usr/sbin $ROOTFS_SHELL
+
+  umount_chroot
+}
+
 export -f run_stage
 export -f msg
+export -f umount_chroot
+export -f mount_chroot
+export -f proot_run_cmd_tools
 
 msg "Functions loaded..."
