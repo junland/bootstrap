@@ -1,2 +1,10 @@
-#!/bin/bash
+#!/bin/bash -e
 
+source lib/functions.sh
+
+CWD=$(pwd)
+umask 022
+
+STRAP_ROOTFS=$CWD/rootfs
+
+proot_run_cmd_tools $1 "ls -la"
