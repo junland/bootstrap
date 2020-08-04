@@ -21,26 +21,10 @@ proot_run_cmd_tools $1 "cc dummy.c -v -Wl,--verbose &> dummy.log"
 
 msg "Looking at sanity check..."
 
-proot_run_cmd_tools $1 "readelf -l a.out | grep ': /lib'"
+proot_run_cmd_tools $1 "readelf -l a.out"
 
-msg "Checking start files in log..."
+msg "Output log..."
 
-grep -o '/usr/lib.*/crt[1in].*succeeded' $STRAP_ROOTFS/dummy.log
-
-msg "Verify search of correct header files in log..."
-
-grep -B4 '^ /usr/include' $STRAP_ROOTFS/dummy.log
-
-msg "Verify linker in log..."
-
-grep 'SEARCH.*/usr/lib' $STRAP_ROOTFS/dummy.log |sed 's|; |\n|g'
-
-msg "Verify correct glibc in log..."
-
-grep "/lib.*/libc.so.6 " $STRAP_ROOTFS/dummy.log
-
-msg "Verify correct dynamic linker in log..."
-
-grep found $STRAP_ROOTFS/dummy.log
+cat $STRAP_ROOTFS/dummy.log
 
 msg "Done with tests..."
