@@ -8,6 +8,7 @@ on:
 
 jobs:  
   build:
+    name: Build toolchain and rootfs
     runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
@@ -32,7 +33,7 @@ jobs:
       run: ./strap-toolchain $ACTION_TGT_ARCH
     - name: build chroot
       run: ./strap-chroot $ACTION_TGT_ARCH
-    ### Post steps ###
+    ### Upload artifacts ###
     - name: change ownership and archive stage 1 rootfs
       if: ${{ always() }}
       run: cp -r ${GITHUB_WORKSPACE}/logs ${GITHUB_WORKSPACE}/rootfs && sudo chown root:root -R ${GITHUB_WORKSPACE}/rootfs && sudo tar -cJf ${GITHUB_WORKSPACE}/stage-1-rootfs-$ACTION_TGT_ARCH.tar.xz -C ${GITHUB_WORKSPACE}/rootfs .
@@ -41,3 +42,27 @@ jobs:
       with:
         name: stage-1-rootfs-${{matrix.target-arch}}-${{github.run_id}} 
         path: ${{github.workspace}}/stage-1-rootfs-${{matrix.target-arch}}.tar.xz
+  test:
+    name: Test rootfs
+    runs-on: ubuntu-20.04
+    needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        target-arch: [x86_64, aarch64]
+    env:
+      ACTION_TGT_ARCH: ${{matrix.target-arch}}
+      DEBIAN_FRONTEND: noninteractive
+    steps:
+      - uses: actions/checkout@v2
+      - name: install / update deps if not installed
+        run: sudo apt update -y && sudo apt install rsync wget curl proot qemu qemu-user-static -y && sudo apt autoremove -y
+      - name: download rootfs artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: stage-1-rootfs-${{matrix.target-arch}}-${{github.run_id}}
+      - name: extract rootfs
+        run: mkdir rootfs && tar -xf ${GITHUB_WORKSPACE}/stage-1-rootfs-$ACTION_TGT_ARCH.tar.xz -C rootfs
+      - name: move scripts to current directory.
+        run: cp -v ${GITHUB_WORKSPACE}/.github/workflows/scripts/* ${GITHUB_WORKSPACE}
+
