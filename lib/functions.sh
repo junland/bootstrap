@@ -88,6 +88,8 @@ proot_run_cmd_tools() {
 
   mount_chroot
 
+  msg "Executing '$CHROOT_CMD' command..."
+
   proot --cwd=/ -r "$STRAP_ROOTFS" -q qemu-"$ROOTFS_DIR_ARCH"-static /usr/bin/env -i \
         HOME=/ TERM="$TERM" LC_ALL=POSIX PS1='(chroot)$ ' PATH=/tools/bin:/tools/sbin:/bin:/usr/bin:/sbin:/usr/sbin $ROOTFS_SHELL \
         -c "$CHROOT_CMD ; echo $? > /.exit-code.out"
