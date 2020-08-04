@@ -79,6 +79,7 @@ proot_run_cmd_tools() {
   done
 
   ROOTFS_DIR_ARCH=$(echo "$1" | cut -d "-" -f1)
+  CHROOT_CMD=$2
 
   if [ ! -f "/usr/bin/qemu-$(echo "$1" | cut -d "-" -f1)-static" ]; then
     msg "qemu static binary for $1 does not exist."
@@ -87,9 +88,15 @@ proot_run_cmd_tools() {
 
   mount_chroot
 
-  proot --cwd=/ -r "$STRAP_ROOTFS" -q qemu-"$ROOTFS_DIR_ARCH"-static /usr/bin/env -i HOME=/ TERM="$TERM" LC_ALL=POSIX PS1='(chroot)$ ' PATH=/tools/bin:/tools/sbin:/bin:/usr/bin:/sbin:/usr/sbin $ROOTFS_SHELL
+  proot --cwd=/ -r "$STRAP_ROOTFS" -q qemu-"$ROOTFS_DIR_ARCH"-static /usr/bin/env -i \
+        HOME=/ TERM="$TERM" LC_ALL=POSIX PS1='(chroot)$ ' PATH=/tools/bin:/tools/sbin:/bin:/usr/bin:/sbin:/usr/sbin $ROOTFS_SHELL \
+        -c "$CHROOT_CMD ; echo $? > /.exit-code.out"
 
   umount_chroot
+
+  SIG_NUM=$(cat $STRAP_ROOTFS/.exit-code.out)
+
+  exit "$SIG_NUM"
 }
 
 export -f run_stage
