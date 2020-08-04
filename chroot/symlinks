@@ -1,13 +1,14 @@
 # Binaries
-for file in awk bash cat dd echo env file grep ln ls pwd rm sed sh stty
+
+mkdir -vp ${STRAP_ROOTFS}/usr/bin ${STRAP_ROOTFS}/etc ${STRAP_ROOTFS}/usr ${STRAP_ROOTFS}/var
+
+for bfile in awk bash cat dd echo env file grep ln ls pwd rm sed sh stty install
 do
-    ln -sf "/tools/bin/${file}" "${STRAP_ROOTFS}/usr/bin"
+    msg "Linking /tools/bin/${bfile} to ${STRAP_ROOTFS}/usr/bin/${bfile}"
+    ln -sf "/tools/bin/${bfile}" "${STRAP_ROOTFS}/usr/bin/${bfile}"
 done
 
-mkdir -p ${STRAP_ROOTFS}/etc ${STRAP_ROOTFS}/usr ${STRAP_ROOTFS}/var
-
 ln -sf gcc                 "${STRAP_ROOTFS}/tools/bin/cc"
-ln -sf /tools/bin/install  "${STRAP_ROOTFS}/usr/bin"
 ln -sf /proc/self/mounts   "${STRAP_ROOTFS}/etc/mtab"
 
 # libraries
@@ -27,6 +28,7 @@ ln -sf /tools/usr/lib/libssp_nonshared.a  "${STRAP_ROOTFS}/usr/lib"
 # strip temporary prefix
 for file in libstdc++.la libssp.la libssp_nonshared.la
 do
+    msg "Stripping prefix of ${file}"
     sed -e 's/tools/usr/' ${STRAP_ROOTFS}/tools/usr/lib/$file > "${STRAP_ROOTFS}/usr/lib/$file"
 done
 unset file
