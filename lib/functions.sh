@@ -96,7 +96,12 @@ proot_run_cmd_tools() {
 
   SIG_NUM=$(cat $STRAP_ROOTFS/.exit-code.out)
 
-  exit "$SIG_NUM"
+  if [ $SIG_NUM != "0" ]; then
+     msg "Something went wrong with executing proot_run_cmd_tools..."
+     exit "$SIG_NUM"
+  fi
+
+  return
 }
 
 export -f run_stage
