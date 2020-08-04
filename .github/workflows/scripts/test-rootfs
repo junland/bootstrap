@@ -21,7 +21,7 @@ proot_run_cmd_tools $1 "cc dummy.c -v -Wl,--verbose &> dummy.log"
 
 msg "Looking at sanity check..."
 
-proot_run_cmd_tools $1 "readelf -l a.out"
+readelf -l $STRAP_ROOTFS/a.out"
 
 msg "Output log..."
 
