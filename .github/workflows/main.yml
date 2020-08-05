@@ -37,6 +37,17 @@ jobs:
     - name: change ownership and archive stage 1 rootfs
       if: ${{ always() }}
       run: cp -r ${GITHUB_WORKSPACE}/logs ${GITHUB_WORKSPACE}/rootfs && sudo chown root:root -R ${GITHUB_WORKSPACE}/rootfs && sudo tar -cJf ${GITHUB_WORKSPACE}/stage-1-rootfs-$ACTION_TGT_ARCH.tar.xz -C ${GITHUB_WORKSPACE}/rootfs .
+    - name: prep for upload
+      run: cp ${GITHUB_WORKSPACE}/stage-1-rootfs-$ACTION_TGT_ARCH.tar.xz ${GITHUB_WORKSPACE}/stage-1-rootfs-$ACTION_TGT_ARCH--${{github.run_id}}.tar.xz
+    - name: copy file via ssh password
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        source: "stage-1-rootfs-${{matrix.target-arch}}-${{github.run_id}}.tar.xz"
+        target: "/var/www/files.jlab.space/actions/bootstrap"
     - uses: actions/upload-artifact@v2
       if: ${{ always() }}
       with:
@@ -67,4 +78,3 @@ jobs:
         run: cp -v ${GITHUB_WORKSPACE}/.github/workflows/scripts/* ${GITHUB_WORKSPACE}
       - name: test rootfs
         run: sudo ./test-rootfs $ACTION_TGT_ARCH 
-
