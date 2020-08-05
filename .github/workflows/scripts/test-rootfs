@@ -19,12 +19,12 @@ msg "Compiling dummy.c..."
 
 proot_run_cmd_tools $1 "cc dummy.c -v -Wl,--verbose &> dummy.log"
 
-msg "Looking at sanity check..."
-
-readelf -l $STRAP_ROOTFS/a.out
-
 msg "Output log..."
 
 cat $STRAP_ROOTFS/dummy.log
+
+msg "Looking at sanity check..."
+
+readelf -l $STRAP_ROOTFS/a.out
 
 msg "Done with tests..."
