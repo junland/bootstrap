@@ -25,6 +25,8 @@ ln -sf /tools/usr/lib/libssp.so.0.0.0     "${STRAP_ROOTFS}/usr/lib"
 ln -sf /tools/usr/lib/libssp.a            "${STRAP_ROOTFS}/usr/lib"
 ln -sf /tools/usr/lib/libssp_nonshared.a  "${STRAP_ROOTFS}/usr/lib"
 
+ln -sf /tools/usr/lib/ld-linux-${STRAP_ARCH}.so.1 "${STRAP_ROOTFS}/usr/lib"
+
 # strip temporary prefix
 for file in libstdc++.la libssp.la libssp_nonshared.la
 do

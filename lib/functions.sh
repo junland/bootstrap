@@ -71,9 +71,9 @@ umount_chroot() {
 
 proot_run_cmd_tools() {
   for shell in "sh" "ash" "bash"; do
-    if [ -f "$ROOTFS_DIR"/bin/$shell ] || [ -L "$ROOTFS_DIR"/bin/$shell ]; then
+    if [ -f "$ROOTFS_DIR"/tools/bin/$shell ] || [ -L "$ROOTFS_DIR"/tools/bin/$shell ]; then
       msg "Selected $shell as rootfs shell..."
-      export ROOTFS_SHELL=/bin/$shell
+      export ROOTFS_SHELL=/tools/bin/$shell
       break
     fi
   done
