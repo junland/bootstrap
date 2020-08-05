@@ -8,7 +8,7 @@ do
     ln -sf "/tools/bin/${bfile}" "${STRAP_ROOTFS}/usr/bin/${bfile}"
 done
 
-ln -sf gcc                 "${STRAP_ROOTFS}/tools/bin/cc"
+ln -sf /usr/bin/gcc        "${STRAP_ROOTFS}/tools/bin/cc"
 ln -sf /proc/self/mounts   "${STRAP_ROOTFS}/etc/mtab"
 
 # libraries
