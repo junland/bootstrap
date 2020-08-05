@@ -17,11 +17,15 @@ jobs:
     env:
       ACTION_TGT_ARCH: ${{matrix.target-arch}}
       DEBIAN_FRONTEND: noninteractive
+      SCP_USER: ${{ secrets.USERNAME }}
+      SCP_PASS: ${{ secrets.PASSWORD }}
+      SCP_HOST: ${{ secrets.HOST }}
+      SCP_PORT: ${{ secrets.PORT }}
     steps:
     ### Setup OS enviroment ###
     - uses: actions/checkout@v2
     - name: install / update deps if not installed
-      run: sudo apt update -y && sudo apt install rsync build-essential expect pkg-config libarchive-tools m4 gawk bc bison flex texinfo python3 perl libtool autoconf automake autopoint autoconf-archive mtools liblzma-dev libelf-dev libssl-dev zlib1g-dev zlib1g xz-utils lzip file curl wget gettext -y && sudo apt autoremove -y
+      run: sudo apt update -y && sudo apt install sshpass scp rsync build-essential expect pkg-config libarchive-tools m4 gawk bc bison flex texinfo python3 perl libtool autoconf automake autopoint autoconf-archive mtools liblzma-dev libelf-dev libssl-dev zlib1g-dev zlib1g xz-utils lzip file curl wget gettext -y && sudo apt autoremove -y
     - name: use bash instead of dash
       run: sudo dpkg-reconfigure dash
     - name: move bashrc file outside of current user
@@ -39,15 +43,8 @@ jobs:
       run: cp -r ${GITHUB_WORKSPACE}/logs ${GITHUB_WORKSPACE}/rootfs && sudo chown root:root -R ${GITHUB_WORKSPACE}/rootfs && sudo tar -cJf ${GITHUB_WORKSPACE}/stage-1-rootfs-$ACTION_TGT_ARCH.tar.xz -C ${GITHUB_WORKSPACE}/rootfs .
     - name: prep for upload
       run: cp ${GITHUB_WORKSPACE}/stage-1-rootfs-$ACTION_TGT_ARCH.tar.xz ${GITHUB_WORKSPACE}/stage-1-rootfs-$ACTION_TGT_ARCH--${{github.run_id}}.tar.xz
-    - name: copy file via ssh password
-      uses: appleboy/scp-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        port: ${{ secrets.PORT }}
-        source: "stage-1-rootfs-${{matrix.target-arch}}-${{github.run_id}}.tar.xz"
-        target: "/var/www/files.jlab.space/actions/bootstrap"
+    - name: upload to server
+      run: sshpass -p '$SCP_PASS' scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -P $SCP_PORT stage-1-rootfs-${{matrix.target-arch}}-${{github.run_id}}.tar.xz $SCP_USER@$SCP_HOST:/var/www/files.jlab.space/actions/bootstrap
     - uses: actions/upload-artifact@v2
       if: ${{ always() }}
       with:
