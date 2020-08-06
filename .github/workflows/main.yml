@@ -43,7 +43,7 @@ jobs:
       run: cp -r ${GITHUB_WORKSPACE}/logs ${GITHUB_WORKSPACE}/rootfs && sudo chown root:root -R ${GITHUB_WORKSPACE}/rootfs && sudo tar -cJf ${GITHUB_WORKSPACE}/stage-1-rootfs-$ACTION_TGT_ARCH.tar.xz -C ${GITHUB_WORKSPACE}/rootfs .
     - name: prep for upload
       run: cp ${GITHUB_WORKSPACE}/stage-1-rootfs-$ACTION_TGT_ARCH.tar.xz ${GITHUB_WORKSPACE}/stage-1-rootfs-$ACTION_TGT_ARCH-${{github.run_id}}.tar.xz
-    - name: scp files
+    - name: send files to server
       uses: cross-the-world/scp-pipeline@master
       with:
         host: ${{ secrets.HOST }}
