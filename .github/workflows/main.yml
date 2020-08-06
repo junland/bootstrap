@@ -42,14 +42,17 @@ jobs:
       if: ${{ always() }}
       run: cp -r ${GITHUB_WORKSPACE}/logs ${GITHUB_WORKSPACE}/rootfs && sudo chown root:root -R ${GITHUB_WORKSPACE}/rootfs && sudo tar -cJf ${GITHUB_WORKSPACE}/stage-1-rootfs-$ACTION_TGT_ARCH.tar.xz -C ${GITHUB_WORKSPACE}/rootfs .
     - name: prep for upload
-      run: cp ${GITHUB_WORKSPACE}/stage-1-rootfs-$ACTION_TGT_ARCH.tar.xz ${GITHUB_WORKSPACE}/stage-1-rootfs-$ACTION_TGT_ARCH--${{github.run_id}}.tar.xz
-    - name: upload rootfs to server
-      run: sshpass -p '$SCP_PASS' scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -P $SCP_PORT stage-1-rootfs-${{matrix.target-arch}}-${{github.run_id}}.tar.xz $SCP_USER@$SCP_HOST:/var/www/files.jlab.space/actions/bootstrap
-    - uses: actions/upload-artifact@v2
-      if: ${{ always() }}
+      run: cp ${GITHUB_WORKSPACE}/stage-1-rootfs-$ACTION_TGT_ARCH.tar.xz ${GITHUB_WORKSPACE}/stage-1-rootfs-$ACTION_TGT_ARCH-${{github.run_id}}.tar.xz
+    - name: scp files
+      uses: cross-the-world/scp-pipeline@master
       with:
-        name: stage-1-rootfs-${{matrix.target-arch}}-${{github.run_id}} 
-        path: ${{github.workspace}}/stage-1-rootfs-${{matrix.target-arch}}.tar.xz
+        host: ${{ secrets.SCP_HOST }}
+        user: ${{ secrets.SCP_USER }}
+        pass: ${{ secrets.SCP_PASS }}
+        port: ${{ secrets.SCP_PORT }}
+        connect_timeout: 10s
+        scp: |
+         /home/runner/work/bootstrap/bootstrap/stage-1-rootfs-${{matrix.target-arch}}-${{github.run_id}}.tar.xz => "/var/www/files.jlab.space/actions/bootstrap"
   test:
     name: Test rootfs
     runs-on: ubuntu-20.04
