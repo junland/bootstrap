@@ -71,7 +71,8 @@ umount_chroot() {
 
 proot_run_cmd_tools() {
   for shell in "sh" "ash" "bash"; do
-    if [ -f "$ROOTFS_DIR"/tools/bin/$shell ] || [ -L "$ROOTFS_DIR"/tools/bin/$shell ]; then
+    msg "Searching for shell: $shell"
+    if [ -f "$STRAP_ROOTFS"/tools/bin/$shell ] || [ -L "$STRAP_ROOTFS"/tools/bin/$shell ]; then
       msg "Selected $shell as rootfs shell..."
       export ROOTFS_SHELL=/tools/bin/$shell
       break
@@ -95,8 +96,7 @@ proot_run_cmd_tools() {
         LC_ALL=POSIX \
         PS1='(chroot)$ ' \
         PATH=/tools/usr/bin:/tools/usr/sbin:/tools/bin:/tools/sbin:/bin:/usr/bin:/sbin:/usr/sbin \
-        $ROOTFS_SHELL \
-        -c "$CHROOT_CMD ; echo $? > /.exit-code.out"
+        $ROOTFS_SHELL -c "$CHROOT_CMD ; echo $? > /.exit-code.out"
 
   umount_chroot
 
