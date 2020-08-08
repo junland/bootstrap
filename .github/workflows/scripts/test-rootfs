@@ -9,7 +9,7 @@ STRAP_ROOTFS=$CWD/rootfs
 
 msg "Testing proot execution..."
 
-proot_run_cmd_tools $1 "ls -la"
+proot_run_cmd_tools $1 'ls -la; echo $PATH'
 
 msg "Injecting dummy.c..."
 
