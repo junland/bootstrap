@@ -23,6 +23,10 @@ msg "Output log..."
 
 cat $STRAP_ROOTFS/dummy.log
 
+msg "Checking failed..."
+
+cat $STRAP_ROOTFS/dummy.log | grep failed
+
 msg "Looking at sanity check..."
 
 readelf -l $STRAP_ROOTFS/a.out
