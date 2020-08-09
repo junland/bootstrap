@@ -17,7 +17,7 @@ echo 'int main(){}' > $STRAP_ROOTFS/dummy.c
 
 msg "Compiling dummy.c..."
 
-proot_run_cmd_tools $1 "cc dummy.c -v -Wl,--verbose &> dummy.log"
+proot_run_cmd_tools $1 "gcc dummy.c -v -Wl,--verbose &> dummy.log"
 
 msg "Output log..."
 
