@@ -16,9 +16,21 @@ msg "Building busybox..."
 
 make -j${PNUM} busybox V=1 ARCH="$STRAP_KARCH" CROSS_COMPILE="${STRAP_TARGET}-"
 
+msg "Building busybox symlinks..."
+
+make -j${PNUM} busybox V=1 ARCH="$STRAP_KARCH" CROSS_COMPILE="${STRAP_TARGET}-" busybox.symlinks
+
 msg "Installing busybox..."
 
-make CROSS_COMPILE="${STRAP_TARGET}-" ARCH="$STRAP_KARCH" CONFIG_PREFIX=${STRAP_ROOTFS} install
+install -D busybox "${STRAP_ROOTFS}"/usr/bin/busybox
+
+chmod 0755 "${STRAP_ROOTFS}"/usr/bin/busybox
+
+msg "Creating busybox links..."
+
+for cmd in `cat busybox.links|sed 's|^.*/||'`; do 
+  ln -svf busybox ${STRAP_ROOTFS}/usr/bin/$cmd || true; 
+done
 
 msg "Cleaning up busybox..."
 
