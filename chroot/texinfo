@@ -21,7 +21,7 @@ make -j${PNUM}
 
 msg "Installing texinfo..."
 
-make -j${PNUM} DESTDIR=${STRAP_ROOTFS}/tools install
+make -j${PNUM} DESTDIR=${STRAP_ROOTFS} install
 
 msg "Cleaning up texinfo..."
 

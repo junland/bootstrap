@@ -24,7 +24,7 @@ make -j${PNUM} all
 
 msg "Installing binutils..."
 
-make -j${PNUM} DESTDIR=${STRAP_ROOTFS}/tools install
+make -j${PNUM} DESTDIR=${STRAP_ROOTFS} install
 
 msg "Cleaning up binutils..."
 

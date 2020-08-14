@@ -52,7 +52,7 @@ run_stage chroot/make
 run_stage chroot/patch
 run_stage chroot/texinfo
 run_stage chroot/busybox
-run_stage chroot/symlinks
+run_stage chroot/root
 
 msg "Cleaning up..."
 
