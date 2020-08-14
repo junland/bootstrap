@@ -34,8 +34,6 @@ msg "Setting up rootfs..."
 
 mkdir -vp -- "${STRAP_ROOTFS}/usr/lib"
 
-ln -sv /tools/usr/lib "${STRAP_ROOTFS}/tools/lib" 
-
 ln -sv /usr/lib "${STRAP_ROOTFS}/lib" 
 
 ln -sv /usr/bin "${STRAP_ROOTFS}/bin"

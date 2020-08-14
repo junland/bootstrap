@@ -32,10 +32,10 @@ jobs:
     ### Actually run bootstrap process ###
     - name: setup bootstrap
       run: ./strap-setup $ACTION_TGT_ARCH
-    - name: build toolchain
+    - name: build stage1
       run: ./strap-toolchain $ACTION_TGT_ARCH
-    - name: build chroot
-      run: ./strap-chroot $ACTION_TGT_ARCH
+    - name: build stage2
+      run: sudo chown runner:runner -R ./* && ./strap-chroot $ACTION_TGT_ARCH
     ### Upload artifacts ###
     - name: change ownership and archive stage 1 rootfs
       if: ${{ always() }}
