@@ -14,7 +14,7 @@ cat "${CWD}/chroot/files/busybox-config_chroot" > .config
 
 msg "Building busybox..."
 
-make -j${PNUM} busybox V=1 ARCH="$STRAP_KARCH" CROSS_COMPILE="${STRAP_TARGET}-"
+make -j${PNUM} V=1 ARCH="$STRAP_KARCH" CROSS_COMPILE="${STRAP_TARGET}-" busybox
 
 msg "Installing busybox..."
 
