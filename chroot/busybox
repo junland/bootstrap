@@ -16,9 +16,9 @@ msg "Building busybox..."
 
 make -j${PNUM} V=1 ARCH="$STRAP_KARCH" CROSS_COMPILE="${STRAP_TARGET}-" busybox
 
-msg "Installing busybox..."
+msg "Create busybox links file..."
 
-make CROSS_COMPILE="${STRAP_TARGET}-" ARCH="$STRAP_KARCH" CONFIG_PREFIX="${STRAP_ROOTFS}/tools" install
+make CROSS_COMPILE="${STRAP_TARGET}-" ARCH="$STRAP_KARCH" CONFIG_PREFIX="${STRAP_ROOTFS}/tools" busybox.links
 
 msg "Creating busybox links..."
 
