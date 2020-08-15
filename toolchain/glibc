@@ -45,6 +45,6 @@ make -j${PNUM} install install_root=$STRAP_TOOLS/sysroot
 
 msg "Installing glibc into rootfs..."
 
-make -j${PNUM} install install_root=$STRAP_ROOTFS/tools
+make -j${PNUM} install install_root=$STRAP_ROOTFS
 
 msg "Skip cleaning up glibc..."
