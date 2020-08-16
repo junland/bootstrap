@@ -84,6 +84,7 @@ msg "Configuring gcc..."
  --enable-default-ssp \
  --enable-default-pie \
  --enable-libssp \
+ --enable-shared \
  --disable-symvers \
  --disable-bootstrap \
  --disable-libstdcxx-pch \
