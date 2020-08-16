@@ -55,18 +55,44 @@ cd $STRAP_SOURCES/gcc-build
 
 msg "Configuring gcc..."
 
+#../gcc-10.1.0/configure \
+#    --prefix=/usr \
+#    --build=$STRAP_HOST \
+#    --host=$STRAP_TARGET \
+#    --target=$STRAP_TARGET \
+#    --enable-languages=c,c++ \
+#    --with-glibc-version=4.19 \
+#    --enable-shared \
+#    --disable-nls  \
+#    --disable-libsanitizer \
+#    --disable-multilib \
+#    $GCC_OPTIONS
+
 ../gcc-10.1.0/configure \
-    --prefix=/usr \
-    --build=$STRAP_HOST \
-    --host=$STRAP_TARGET \
-    --target=$STRAP_TARGET \
-    --enable-languages=c,c++ \
-    --with-glibc-version=4.19 \
-    --enable-shared \
-    --disable-nls  \
-    --disable-libsanitizer \
-    --disable-multilib \
-    $GCC_OPTIONS
+ --prefix=/usr \
+ --libdir=/usr/lib \
+ --build=$STRAP_HOST \
+ --host=$STRAP_TARGET \
+ --target=$STRAP_TARGET \
+ --enable-languages=c,c++ \
+ --enable-clocale=generic \
+ --enable-cet=auto \
+ --enable-tls \
+ --enable-libstdcxx-time \
+ --enable-install-libiberty \
+ --enable-fully-dynamic-string \
+ --enable-default-ssp \
+ --enable-default-pie \
+ --enable-libssp \
+ --disable-symvers \
+ --disable-bootstrap \
+ --disable-libstdcxx-pch \
+ --disable-gnu-indirect-function \
+ --disable-libmudflap \
+ --disable-libsanitizer \
+ --disable-nls \
+ --disable-multilib \
+ $GCC_OPTIONS
 
 msg "Building gcc..."
 
