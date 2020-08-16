@@ -69,7 +69,7 @@ msg "Configuring gcc..."
 
 msg "Building gcc..."
 
-make -j${PNUM}
+make -j${PNUM} AS_FOR_TARGET="$AS" LD_FOR_TARGET="$LD" all 
 
 msg "Installing gcc.."
 
