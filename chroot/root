@@ -1,1 +1,5 @@
-mkdir -vp ${STRAP_ROOTFS}/usr/bin ${STRAP_ROOTFS}/etc ${STRAP_ROOTFS}/usr ${STRAP_ROOTFS}/var
+mkdir -vp ${STRAP_ROOTFS}/usr/bin \
+              ${STRAP_ROOTFS}/etc \
+              ${STRAP_ROOTFS}/usr \
+              ${STRAP_ROOTFS}/var \
+              ${STRAP_ROOTFS}/usr/sbin

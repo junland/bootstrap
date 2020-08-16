@@ -43,6 +43,7 @@ ln -sv usr/sbin "${STRAP_ROOTFS}/sbin"
 msg "Running stages..."
 
 run_stage chroot/sources
+run_stage chroot/root
 run_stage chroot/binutils
 run_stage chroot/gcc
 run_stage chroot/file
@@ -50,7 +51,6 @@ run_stage chroot/make
 run_stage chroot/patch
 run_stage chroot/texinfo
 run_stage chroot/busybox
-run_stage chroot/root
 
 msg "Cleaning up..."
 
