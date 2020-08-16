@@ -16,7 +16,6 @@ msg "Configure binutils..."
     --host=$STRAP_TARGET \
     --target=$STRAP_TARGET \
     --disable-nls \
-    --with-system-zlib \
     --disable-werror \
     --disable-multilib
 
