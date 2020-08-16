@@ -30,16 +30,6 @@ source $CWD/bootstrap.env
 
 source $CWD/chroot/cross-tools.env
 
-msg "Setting up rootfs..."
-
-mkdir -vp -- "${STRAP_ROOTFS}/usr/lib"
-
-ln -sv usr/lib "${STRAP_ROOTFS}/lib" 
-
-ln -sv usr/bin "${STRAP_ROOTFS}/bin"
-
-ln -sv usr/sbin "${STRAP_ROOTFS}/sbin"
-
 msg "Running stages..."
 
 run_stage chroot/sources
