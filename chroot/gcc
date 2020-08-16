@@ -55,7 +55,7 @@ cd $STRAP_SOURCES/gcc-build
 
 msg "Configuring gcc..."
 
-../gcc-10.1.0/configure 
+../gcc-10.1.0/configure \
     --prefix=/usr \
     --build=$STRAP_HOST \
     --host=$STRAP_TARGET \
