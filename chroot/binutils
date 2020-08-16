@@ -16,15 +16,21 @@ msg "Configure binutils..."
     --host=$STRAP_TARGET \
     --target=$STRAP_TARGET \
     --disable-nls \
+    --with-system-zlib \
+    --disable-werror \
     --disable-multilib
+
+msg "Configure host for binutils..."
+
+make MAKEINFO="true" configure-host
 
 msg "Building binutils..."
 
-make -j${PNUM} all
+make -j${PNUM} MAKEINFO="true"tooldir=/usr all
 
 msg "Installing binutils..."
 
-make -j${PNUM} DESTDIR=${STRAP_ROOTFS} install
+make -j${PNUM} MAKEINFO="true" tooldir=/usr DESTDIR=${STRAP_ROOTFS} install
 
 msg "Cleaning up binutils..."
 
