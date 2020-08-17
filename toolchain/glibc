@@ -26,13 +26,18 @@ echo "libc_cv_ssp=no" >> $STRAP_SOURCES/glibc-build/configparms
 echo "slibdir=/usr/lib" >> $STRAP_SOURCES/glibc-build/configparms
 echo "rtlddir=/usr/lib" >> $STRAP_SOURCES/glibc-build/configparms
 
-../glibc-2.31/configure \
+../glibc-2.31/configure CFLAGS="-O2 " CPPFLAGS="" CXXFLAGS="-O2 " LDFLAGS="" \
     --prefix=/usr \
+    --target=$STRAP_TARGET \
     --build=$STRAP_HOST \
     --host=$STRAP_TARGET \
+    --with-headers=${STRAP_TOOLS}/sysroot/usr/include \
     --libdir=/usr/lib \
     --libexecdir=/usr/lib \
+    --enable-shared \
     --disable-profile \
+    --without-cvs \
+    --without-gd \
     --disable-werror
 
 msg "Building glibc..."
@@ -47,10 +52,10 @@ msg "Installing glibc into rootfs..."
 
 make -j${PNUM} install install_root=$STRAP_ROOTFS
 
-mkdir -p ${STRAP_ROOTFS}/${STRAP_TARGET}/lib
+#mkdir -p ${STRAP_ROOTFS}/${STRAP_TARGET}/lib
 
-install csu/crt1.o csu/crti.o csu/crtn.o "${STRAP_ROOTFS}/${STRAP_TARGET}/lib"
+#install csu/crt1.o csu/crti.o csu/crtn.o "${STRAP_ROOTFS}/${STRAP_TARGET}/lib"
 
-${STRAP_TARGET}-gcc -nostdlib -nostartfiles -shared -x c /dev/null -o "${STRAP_ROOTFS}/${STRAP_TARGET}/lib/libc.so"
+#${STRAP_TARGET}-gcc -nostdlib -nostartfiles -shared -x c /dev/null -o "${STRAP_ROOTFS}/${STRAP_TARGET}/lib/libc.so"
 
 msg "Skip cleaning up glibc..."
