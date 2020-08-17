@@ -52,10 +52,4 @@ msg "Installing glibc into rootfs..."
 
 make -j${PNUM} install install_root=$STRAP_ROOTFS
 
-#mkdir -p ${STRAP_ROOTFS}/${STRAP_TARGET}/lib
-
-#install csu/crt1.o csu/crti.o csu/crtn.o "${STRAP_ROOTFS}/${STRAP_TARGET}/lib"
-
-#${STRAP_TARGET}-gcc -nostdlib -nostartfiles -shared -x c /dev/null -o "${STRAP_ROOTFS}/${STRAP_TARGET}/lib/libc.so"
-
 msg "Skip cleaning up glibc..."
