@@ -85,9 +85,11 @@ msg "Configuring gcc..."
  --with-bugurl="https://github.com/junland/bootstrap/issues" \
  --enable-languages=c,c++ \
  --enable-__cxa_atexit \
+ --enable-clocale=gnu \
  --enable-checking=release \
  --enable-clocale=generic \
  --enable-cet=auto \
+ --enable-threads=posix \
  --enable-tls \
  --enable-libstdcxx-time \
  --enable-install-libiberty \
@@ -113,7 +115,7 @@ make -j${PNUM} AS_FOR_TARGET="$AS" LD_FOR_TARGET="$LD" all
 
 msg "Installing gcc.."
 
-make -j${PNUM} DESTDIR=${STRAP_ROOTFS} install
+make -j1 DESTDIR=${STRAP_ROOTFS} install
 
 msg "Cleaning up gcc..."
 
