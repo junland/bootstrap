@@ -39,6 +39,8 @@ mv -v $STRAP_SOURCES/isl-0.22.1 $STRAP_SOURCES/gcc-10.1.0/isl
 
 msg "Injecting fix for makefile..."
 
+cd $STRAP_SOURCES/gcc-10.1.0
+
 sed -i 's@\./fixinc\.sh@-c true@' gcc/Makefile.in
 
 msg "Fixing where libs are built..."
