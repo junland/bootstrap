@@ -34,6 +34,7 @@ msg "Running stages..."
 
 run_stage chroot/sources
 run_stage chroot/root
+run_stage chroot/glibc
 run_stage chroot/binutils
 run_stage chroot/gcc
 run_stage chroot/file
