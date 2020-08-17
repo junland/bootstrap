@@ -37,6 +37,10 @@ mv -v $STRAP_SOURCES/mpfr-4.1.0 $STRAP_SOURCES/gcc-10.1.0/mpfr
 
 mv -v $STRAP_SOURCES/isl-0.22.1 $STRAP_SOURCES/gcc-10.1.0/isl
 
+msg "Injecting fix for makefile..."
+
+sed -i 's@\./fixinc\.sh@-c true@' gcc/Makefile.in
+
 msg "Fixing where libs are built..."
 
 cd $STRAP_SOURCES/gcc-10.1.0
@@ -71,10 +75,15 @@ msg "Configuring gcc..."
 ../gcc-10.1.0/configure \
  --prefix=/usr \
  --libdir=/usr/lib \
+ --libexecdir=/usr/lib \
  --build=$STRAP_HOST \
  --host=$STRAP_TARGET \
  --target=$STRAP_TARGET \
+ --with-pkgversion="Bootstrap Linux 0.0.0 for $STRAP_TARGET" \
+ --with-bugurl="https://github.com/junland/bootstrap/issues" \
  --enable-languages=c,c++ \
+ --enable-__cxa_atexit \
+ --enable-checking=release \
  --enable-clocale=generic \
  --enable-cet=auto \
  --enable-tls \
@@ -86,6 +95,7 @@ msg "Configuring gcc..."
  --enable-libssp \
  --enable-shared \
  --disable-symvers \
+ --disable-bootstrap \
  --disable-bootstrap \
  --disable-libstdcxx-pch \
  --disable-gnu-indirect-function \
