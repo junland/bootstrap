@@ -74,7 +74,7 @@ msg "Configuring gcc..."
 #    --disable-multilib \
 #    $GCC_OPTIONS
 
-../gcc-10.1.0/configure \
+../gcc-10.1.0/configure CC_FOR_TARGET=$STRAP_TARGET-gcc \
  --prefix=/usr \
  --libdir=/usr/lib \
  --libexecdir=/usr/lib \
