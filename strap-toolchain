@@ -1,4 +1,6 @@
-#!/bin/bash -e
+#/usr/bin/env -S -i bash --norc --noprofile
+
+set -e
 
 source lib/functions.sh
 

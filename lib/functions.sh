@@ -1,4 +1,6 @@
-#!/bin/bash -e
+#/usr/bin/env -S -i bash --norc --noprofile
+
+set -e
 
 msg() {
   echo " >>> $1"
@@ -35,8 +37,7 @@ run_stage_step() {
 
     set -e
 
-    /usr/bin/env -S -i bash --norc --noprofile "${STRAP_CWD}/${stage_step_target}"
-    #. $STRAP_CWD/$stage_target
+    . $STRAP_CWD/$stage_step_target
 
     if [ "$?" -ne "0" ]; then
        msg "Something went wrong with $stage_step_name, check the last few lines of logs to see the error."
