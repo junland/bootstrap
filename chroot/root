@@ -1,0 +1,15 @@
+msg "Preparing rootfs..."
+
+install -v -D -d -m 00755 "${STRAP_ROOTFS}"/usr/{bin,lib,share,sbin,include}
+
+install -v -D -d -m 00755 "${STRAP_ROOTFS}"/{etc,proc,run,var,sys,dev,tmp}
+
+install -v -D -d -m 00755 "${STRAP_ROOTFS}/run/lock"
+
+ln -sv ../run/lock "${STRAP_ROOTFS}/var/lock"
+
+ln -sv usr/lib "${STRAP_ROOTFS}/lib" 
+
+ln -sv usr/bin "${STRAP_ROOTFS}/bin"
+
+ln -sv usr/sbin "${STRAP_ROOTFS}/sbin"

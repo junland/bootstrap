@@ -45,7 +45,7 @@ make -j${PNUM} V=1
 
 msg "Installing file..."
 
-make -j${PNUM} DESTDIR=${STRAP_ROOTFS}/tools install
+make -j${PNUM} DESTDIR=${STRAP_ROOTFS} install
 
 msg "Cleaning up file..."
 

@@ -1,0 +1,77 @@
+#!/bin/bash
+
+trap umount_chroot HUP INT QUIT TERM SIGHUP SIGINT SIGQUIT SIGILL SIGABRT SIGTRAP SIGTERM SIGSEGV
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m'
+
+msg() {
+  printf "${NC} >>> %s ${NC}\n" "$@"
+}
+
+fail_msg() {
+  printf "${RED} >>> %s ${NC}\n" "$@"
+  exit 1
+}
+
+mount_chroot() {
+  msg "Creating file system directories..."
+  mkdir -pv "$ROOTFS_DIR"/{dev,proc,sys,run}
+
+  msg "Mounting chroot..."
+  mount -v --bind /dev "$ROOTFS_DIR"/dev
+  mount -vt devpts devpts "$ROOTFS_DIR"/dev/pts -o gid=5,mode=620
+  mount -vt proc proc "$ROOTFS_DIR"/proc
+  mount -vt sysfs sysfs "$ROOTFS_DIR"/sys
+  mount -vt tmpfs tmpfs "$ROOTFS_DIR"/run
+
+  msg "Done mounting chroot."
+}
+
+umount_chroot() {
+  msg "Unmounting chroot..."
+  umount -v "$ROOTFS_DIR"/dev/pts
+  umount -v "$ROOTFS_DIR"/dev
+  umount -v "$ROOTFS_DIR"/run
+  umount -v "$ROOTFS_DIR"/proc
+  umount -v "$ROOTFS_DIR"/sys
+
+  msg "Done unmounting chroot."
+}
+
+if [ "$1" == "" ]; then
+  fail_msg "No rootfs directory has been specified"
+fi
+
+if [ ! -d "$1" ]; then
+  fail_msg "$1 is not a directory."
+fi
+
+ROOTFS_DIR=$1
+
+if [ "$2" == "" ]; then
+  fail_msg "No qemu static arch has been specified"
+fi
+
+if [ ! -f "/usr/bin/qemu-$(echo "$2" | cut -d "-" -f1)-static" ]; then
+  fail_msg "qemu static binary for $2 does not exist."
+fi
+
+ROOTFS_DIR_ARCH=$(echo "$2" | cut -d "-" -f1)
+
+mount_chroot
+
+for shell in "sh" "ash" "bash"; do
+  if [ -f "$ROOTFS_DIR"/bin/$shell ] || [ -L "$ROOTFS_DIR"/bin/$shell ]; then
+    msg "Selected $shell as rootfs shell..."
+    export ROOTFS_SHELL=/bin/$shell
+    break
+  fi
+done
+
+proot --cwd=/ -r "$ROOTFS_DIR" -q qemu-"$ROOTFS_DIR_ARCH"-static /bin/env -i HOME=/ TERM="$TERM" LC_ALL=POSIX PS1='(chroot)$ ' PATH=/bin:/usr/bin:/sbin:/usr/sbin $ROOTFS_SHELL
+
+umount_chroot
+
+exit 0

@@ -14,11 +14,23 @@ cat "${CWD}/chroot/files/busybox-config_chroot" > .config
 
 msg "Building busybox..."
 
-make -j${PNUM} busybox V=1 ARCH="$STRAP_KARCH" CROSS_COMPILE="${STRAP_TARGET}-"
+make -j${PNUM} V=1 ARCH="$STRAP_KARCH" CROSS_COMPILE="${STRAP_TARGET}-" busybox
+
+msg "Create busybox links file..."
+
+make CROSS_COMPILE="${STRAP_TARGET}-" ARCH="$STRAP_KARCH" CONFIG_PREFIX="${STRAP_ROOTFS}" busybox.links
 
 msg "Installing busybox..."
 
-make CROSS_COMPILE="${STRAP_TARGET}-" ARCH="$STRAP_KARCH" CONFIG_PREFIX="${STRAP_ROOTFS}/tools" install
+install -D busybox "$STRAP_ROOTFS"/usr/bin/busybox
+
+chmod 0755 "$STRAP_ROOTFS"/usr/bin/busybox
+
+msg "Linking busybox commands..."
+
+for cmd in `cat busybox.links|sed 's|^.*/||'`; do 
+  ln -svf busybox ${STRAP_ROOTFS}/usr/bin/$cmd || true; 
+done
 
 msg "Cleaning up busybox..."
 

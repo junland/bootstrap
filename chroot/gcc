@@ -37,6 +37,12 @@ mv -v $STRAP_SOURCES/mpfr-4.1.0 $STRAP_SOURCES/gcc-10.1.0/mpfr
 
 mv -v $STRAP_SOURCES/isl-0.22.1 $STRAP_SOURCES/gcc-10.1.0/isl
 
+msg "Injecting fix for makefile..."
+
+cd $STRAP_SOURCES/gcc-10.1.0
+
+sed -i 's@\./fixinc\.sh@-c true@' gcc/Makefile.in
+
 msg "Fixing where libs are built..."
 
 cd $STRAP_SOURCES/gcc-10.1.0
@@ -49,58 +55,54 @@ msg "Patching gcc..."
 
 patch -Np1 -i "$STRAP_PATCHES"/gcc-enable-cet-in-cross.patch
 
-msg "Hard coding path to /tools..."
-
-for file in \
- gcc/config/linux.h gcc/config/i386/linux.h gcc/config/i386/linux64.h \
- gcc/config/arm/linux-eabi.h gcc/config/arm/linux-elf.h \
- gcc/config/mips/linux.h \
- gcc/config/rs6000/linux64.h gcc/config/rs6000/sysv4.h \
- gcc/config/aarch64/aarch64-linux.h \
- gcc/config/microblaze/linux.h \
- gcc/config/sh/linux.h \
- gcc/config/riscv/linux.h ; \
-do
-    if test ! -f "$file"
-    then
-        echo "WARNING: ${0}: Non-existent file: $file" 1>&2
-        continue;
-    fi
-    sed -i \
-     -e 's@/lib\(64\)\{0,1\}\(32\)\{0,1\}/ld@/tools&@g' \
-     -e 's@/usr@/tools@g' "$file"
-    echo '
-#undef STANDARD_STARTFILE_PREFIX_1
-#undef STANDARD_STARTFILE_PREFIX_2
-#define STANDARD_STARTFILE_PREFIX_1 "/tools/lib/"
-#define STANDARD_STARTFILE_PREFIX_2 ""' >> "$file"
-done
-
 mkdir -p $STRAP_SOURCES/gcc-build 
 
 cd $STRAP_SOURCES/gcc-build
 
 msg "Configuring gcc..."
 
-../gcc-10.1.0/configure \
-    --prefix=/usr \
-    --build=$STRAP_HOST \
-    --host=$STRAP_TARGET \
-    --target=$STRAP_TARGET \
-    --enable-languages=c,c++ \
-    --with-glibc-version=4.19 \
-    --disable-nls  \
-    --disable-libsanitizer \
-    --disable-multilib \
-    $GCC_OPTIONS
+../gcc-10.1.0/configure CC_FOR_TARGET=$STRAP_TARGET-gcc \
+ --prefix=/usr \
+ --libdir=/usr/lib \
+ --libexecdir=/usr/lib \
+ --build=$STRAP_HOST \
+ --host=$STRAP_TARGET \
+ --target=$STRAP_TARGET \
+ --with-pkgversion="Bootstrap Linux 0.0.0 for $STRAP_TARGET" \
+ --with-bugurl="https://github.com/junland/bootstrap/issues" \
+ --enable-languages=c,c++ \
+ --enable-__cxa_atexit \
+ --enable-clocale=gnu \
+ --enable-checking=release \
+ --enable-clocale=generic \
+ --enable-cet=auto \
+ --enable-threads=posix \
+ --enable-tls \
+ --enable-libstdcxx-time \
+ --enable-install-libiberty \
+ --enable-fully-dynamic-string \
+ --enable-default-ssp \
+ --enable-default-pie \
+ --enable-libssp \
+ --enable-shared \
+ --disable-symvers \
+ --disable-bootstrap \
+ --disable-bootstrap \
+ --disable-libstdcxx-pch \
+ --disable-gnu-indirect-function \
+ --disable-libmudflap \
+ --disable-libsanitizer \
+ --disable-nls \
+ --disable-multilib \
+ $GCC_OPTIONS
 
 msg "Building gcc..."
 
-make -j${PNUM}
+make -j${PNUM} AS_FOR_TARGET="$AS" LD_FOR_TARGET="$LD" all 
 
 msg "Installing gcc.."
 
-make -j${PNUM} DESTDIR=${STRAP_ROOTFS}/tools install
+make -j1 DESTDIR=${STRAP_ROOTFS} install
 
 msg "Cleaning up gcc..."
 
