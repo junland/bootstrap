@@ -19,8 +19,9 @@ mtools zlib1g-dev zlib1g xz-utils file wget gettext git
 Fedora / OpenSUSE / CentOS / RPM-based
 
 ```
-gcc autoconf autoconf-archive automake gettext binutils \
-bison flex libtool make mtools pkgconf expect xz file git perl 
+gcc gcc-g++ make bison flex rsync patch expect mtools python3 pigz libarchive \
+bsdtar autoconf automake texinfo libtool zlib-devel xz-devel libzstd-devel libarchive-devel \
+file-devel libcap-devel gettext-devel zlib-devel git wget
 ```
 
 2. Clone Repo
