@@ -11,13 +11,16 @@ Bootstrap scripts to create a multi-architecture bootstrap Linux stages from scr
 Ubuntu / Debian / DEB-based
 
 ```
-rsync build-essential expect pkg-config libarchive-tools m4 gawk bc bison flex texinfo python3 perl libtool autoconf automake autopoint autoconf-archive mtools zlib1g-dev zlib1g xz-utils file wget gettext git
+rsync build-essential expect pkg-config libarchive-tools m4 gawk bc \ 
+bison flex texinfo python3 perl libtool autoconf automake autopoint autoconf-archive \
+mtools zlib1g-dev zlib1g xz-utils file wget gettext git
 ```
 
 Fedora / OpenSUSE / CentOS / RPM-based
 
 ```
-gcc autoconf autoconf-archive automake gettext binutils bison flex libtool make mtools pkgconf expect xz file git perl 
+gcc autoconf autoconf-archive automake gettext binutils \
+bison flex libtool make mtools pkgconf expect xz file git perl 
 ```
 
 2. Clone Repo
