@@ -4,41 +4,48 @@ msg() {
   echo " >>> $1"
 }
 
-run_stage() {
-    stage_target=$1
+run_stage_step() {
+    stage_step_target=$1
 
-    export stage_target
+    export stage_step_target
 
-    stage_name=$(echo ${stage_target} | sed 's/\//\-/g')
+    stage_step_name=$(echo ${stage_step_target} | sed 's/\//\-/g')
     
-    if ! test -f $STRAP_CWD/$stage_target; then
-      msg "Stage script does not exist: $stage_target"
+    if ! test -f $STRAP_CWD/$stage_step_target; then
+      msg "Stage script does not exist: $stage_step_target"
       exit 1
     fi
 
-    if test -f $STRAP_CWD/logs/$stage_name.done; then
-      msg "Stage $stage_name has already been completed, skipping..."
+    if test -f $STRAP_CWD/logs/$stage_step_name.done; then
+      msg "Stage $stage_step_name has already been completed, skipping..."
       return
     fi
 
-    chmod +x $STRAP_CWD/$stage_target
+    msg "Setting up env for stage step: $stage_step_target"
+
+    chmod +x $STRAP_CWD/$stage_step_target
 
     . $STRAP_CWD/bootstrap.env
 
-    msg "Running stage: $stage_name ($stage_target)"
+    unset CFLAGS
+    unset CXXFLAGS
+    unset LDFLAGS
+
+    msg "Running stage: $stage_step_name ($stage_step_target)"
 
     set -e
 
-    . $STRAP_CWD/$stage_target
+    /usr/bin/env -S -i bash --norc --noprofile "${STRAP_CWD}/${stage_step_target}"
+    #. $STRAP_CWD/$stage_target
 
     if [ "$?" -ne "0" ]; then
-       msg "Something went wrong with $stage_name, check the last few lines of logs to see the error."
+       msg "Something went wrong with $stage_step_name, check the last few lines of logs to see the error."
        exit 1
     fi
 
-    msg "Done with stage: $stage_name ($stage_target)"
+    msg "Done with stage: $stage_step_name ($stage_step_target)"
     
-    touch $STRAP_CWD/logs/$stage_name.done
+    touch $STRAP_CWD/logs/$stage_step_name.done
 }
 
 mount_chroot() {
@@ -114,7 +121,7 @@ proot_run_cmd_tools() {
   return
 }
 
-export -f run_stage
+export -f run_stage_step
 export -f msg
 export -f umount_chroot
 export -f mount_chroot

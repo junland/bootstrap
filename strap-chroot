@@ -36,16 +36,16 @@ mkdir -vp "$STRAP_BUILD"
 
 msg "Running stages..."
 
-run_stage chroot/sources
-run_stage chroot/root
-run_stage chroot/glibc
-run_stage chroot/binutils
-run_stage chroot/gcc
-run_stage chroot/file
-run_stage chroot/make
-run_stage chroot/patch
-run_stage chroot/texinfo
-run_stage chroot/busybox
+run_stage_step chroot/sources
+run_stage_step chroot/root
+run_stage_step chroot/glibc
+run_stage_step chroot/binutils
+run_stage_step chroot/gcc
+run_stage_step chroot/file
+run_stage_step chroot/make
+run_stage_step chroot/patch
+run_stage_step chroot/texinfo
+run_stage_step chroot/busybox
 
 msg "Cleaning up..."
 

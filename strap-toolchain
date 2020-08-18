@@ -34,12 +34,12 @@ mkdir -vp "$STRAP_BUILD"
 
 msg "Running stages..."
 
-run_stage toolchain/sources
-run_stage toolchain/binutils
-run_stage toolchain/linux-headers
-run_stage toolchain/gcc-1
-run_stage toolchain/glibc
-run_stage toolchain/gcc-2
+run_stage_step toolchain/sources
+run_stage_step toolchain/binutils
+run_stage_step toolchain/linux-headers
+run_stage_step toolchain/gcc-1
+run_stage_step toolchain/glibc
+run_stage_step toolchain/gcc-2
 
 msg "Cleaning up..."
 
