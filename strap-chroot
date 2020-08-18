@@ -30,6 +30,10 @@ source $CWD/bootstrap.env
 
 source $CWD/chroot/cross-tools.env
 
+msg "Create build directory..."
+
+mkdir -vp "$STRAP_BUILD"
+
 msg "Running stages..."
 
 run_stage chroot/sources

@@ -2,11 +2,13 @@ cd $STRAP_SOURCES
 
 msg "Extracting binutils..."
 
-tar -xf ./binutils-2.35.tar.xz
+tar -xf ./binutils-2.35.tar.xz -C $STRAP_BUILD
 
-mkdir -p $STRAP_SOURCES/binutils-build 
+msg "Create seperate build directory..."
 
-cd $STRAP_SOURCES/binutils-build
+mkdir -vp $STRAP_BUILD/binutils-build 
+
+cd $STRAP_BUILD/binutils-build
 
 msg "Configure binutils..."
 
@@ -32,4 +34,4 @@ make -j${PNUM} install
 
 msg "Cleaning up binutils..."
 
-rm -rf $STRAP_SOURCES/binutils-*/
+rm -rf $STRAP_BUILD/*

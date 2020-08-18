@@ -28,6 +28,10 @@ chmod +x $CWD/bootstrap.env
 
 source $CWD/bootstrap.env
 
+msg "Create build directory..."
+
+mkdir -vp "$STRAP_BUILD"
+
 msg "Running stages..."
 
 run_stage toolchain/sources

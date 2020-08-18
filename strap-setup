@@ -29,6 +29,7 @@ STRAP_ROOTFS=$STRAP_ROOTFS
 STRAP_TOOLS=$STRAP_TOOLS
 STRAP_SOURCES=$CWD/sources
 STRAP_PATCHES=$CWD/patches
+STRAP_BUILD=$CWD/build
 STRAP_KARCH=$STRAP_KARCH
 STRAP_HOST=$(echo ${MACHTYPE} | sed "s/-[^-]*/-cross/")
 STRAP_TARGET=$STRAP_TARGET
@@ -57,6 +58,10 @@ source $CWD/bootstrap.env
 msg "Creating log directory..."
 
 mkdir -vp $CWD/logs
+
+msg "Create build directory..."
+
+mkdir -vp "$STRAP_BUILD"
 
 msg "Creating rootfs directory..."
 

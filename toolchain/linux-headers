@@ -2,9 +2,9 @@ cd $STRAP_SOURCES
 
 msg "Extracting linux-headers..."
 
-tar -xf ./linux-5.7.tar.xz
+tar -xf ./linux-5.7.tar.xz -C $STRAP_BUILD
 
-cd linux-5.7
+cd $STRAP_BUILD/linux-5.7
 
 msg "Checking linux-headers..."
 
@@ -36,4 +36,4 @@ cp -rv dest/include/* ${STRAP_TOOLS}/sysroot/usr/include
 
 msg "Cleaning up linux-headers..."
 
-rm -rf $STRAP_SOURCES/linux-*/
+rm -rf $STRAP_BUILD/*

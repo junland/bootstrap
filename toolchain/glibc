@@ -12,19 +12,21 @@ export OBJDUMP="$STRAP_TARGET-objdump"
 
 msg "Extract glibc..."
 
-tar -xf glibc-2.31.tar.xz
+tar -xf glibc-2.31.tar.xz -C $STRAP_BUILD
 
-mkdir -p $STRAP_SOURCES/glibc-build
+msg "Create seperate build directory..."
 
-cd $STRAP_SOURCES/glibc-build
+mkdir -vp $STRAP_BUILD/glibc-build
+
+cd $STRAP_BUILD/glibc-build
 
 msg "Configure glibc..."
 
-echo "libc_cv_forced_unwind=yes" > $STRAP_SOURCES/glibc-build/configparms
-echo "libc_cv_c_cleanup=yes" >> $STRAP_SOURCES/glibc-build/configparms
-echo "libc_cv_ssp=no" >> $STRAP_SOURCES/glibc-build/configparms
-echo "slibdir=/usr/lib" >> $STRAP_SOURCES/glibc-build/configparms
-echo "rtlddir=/usr/lib" >> $STRAP_SOURCES/glibc-build/configparms
+echo "libc_cv_forced_unwind=yes" > $STRAP_BUILD/glibc-build/configparms
+echo "libc_cv_c_cleanup=yes" >> $STRAP_BUILD/glibc-build/configparms
+echo "libc_cv_ssp=no" >> $STRAP_BUILD/glibc-build/configparms
+echo "slibdir=/usr/lib" >> $STRAP_BUILD/glibc-build/configparms
+echo "rtlddir=/usr/lib" >> $STRAP_BUILD/glibc-build/configparms
 
 ../glibc-2.31/configure CFLAGS="-O2 " CPPFLAGS="" CXXFLAGS="-O2 " LDFLAGS="" \
     --prefix=/usr \
@@ -50,4 +52,4 @@ make -j${PNUM} install install_root=$STRAP_TOOLS/sysroot
 
 msg "Cleaning up glibc..."
 
-rm -rf $STRAP_SOURCES/glibc-*/
+rm -rf $STRAP_BUILD/*
