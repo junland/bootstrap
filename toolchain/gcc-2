@@ -1,5 +1,23 @@
 cd $STRAP_SOURCES/gcc-build
 
+msg "Extracting gcc-2..."
+
+tar -xf gcc-10.1.0.tar.xz
+
+msg "Extract gcc deps..."
+
+tar xf $STRAP_SOURCES/gmp-6.2.0.tar.xz
+
+tar xf $STRAP_SOURCES/mpc-1.1.0.tar.gz
+
+tar xf $STRAP_SOURCES/mpfr-4.1.0.tar.xz
+
+mv -v $STRAP_SOURCES/gmp-6.2.0 $STRAP_SOURCES/gcc-10.1.0/gmp
+
+mv -v $STRAP_SOURCES/mpc-1.1.0 $STRAP_SOURCES/gcc-10.1.0/mpc
+
+mv -v $STRAP_SOURCES/mpfr-4.1.0 $STRAP_SOURCES/gcc-10.1.0/mpfr
+
 case "$STRAP_ARCH" in
     x86_64)
         GCC_OPTIONS="--with-arch=x86-64 --with-tune=generic --enable-cet=auto"
@@ -42,4 +60,4 @@ make -j${PNUM} install
 
 msg "Cleaning up gcc..."
 
-rm -rf $STRAP_SOURCES/gcc-*/
+rm -rf $STRAP_SOURCES/gcc-build $STRAP_SOURCES/gcc-10.1.0
